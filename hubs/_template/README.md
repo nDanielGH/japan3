@@ -11,6 +11,5 @@ notes: null
 
 # Hub
 
-Add concise context about this sleep base here after copying the template.
-Keep trip-wide constants in the root `constraints.md` and local rules in this
-hub's `constraints.md`.
+Add sleep-base context here. Keep trip-wide constants in root `constraints.md`
+and local rules in this hub's `constraints.md`.

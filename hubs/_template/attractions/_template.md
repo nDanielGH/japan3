@@ -13,15 +13,16 @@ sources: []
 notes: null
 ---
 
+# Attraction
+
 ## Why consider
 
 ## What to do there
 
 ## Logistics
 
-Keep factual logistics claims sourced in the hub's `research/` notes. Use
-`UNVERIFIED` plus a matching unchecked question when a claim cannot yet be
-confirmed.
+Source factual logistics in hub `research/` notes. For unconfirmed claims, use
+`UNVERIFIED` plus a matching unchecked question.
 
 ## Open questions
 

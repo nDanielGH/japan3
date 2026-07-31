@@ -4,16 +4,17 @@ id: null
 topic: null
 ---
 
+# Research note
+
 ## Findings
 
-Reference attractions as stable `hub/slug` values, never as triage-folder
-paths. Keep unresolved claims marked `UNVERIFIED` and mirror each one under
-`## Open questions`.
+Use stable `hub/slug` attraction references, never triage paths. Mark
+unresolved claims `UNVERIFIED` and mirror them under `## Open questions`.
 
 ## Sources
 
-<!-- one line per claim: - <claim> — [<source title>](URL) — accessed YYYY-MM-DD -->
-<!-- unverified claims: tag UNVERIFIED and mirror under Open questions -->
+<!-- - <claim> — [<source title>](URL) — accessed YYYY-MM-DD -->
+<!-- UNVERIFIED claims need matching Open questions -->
 
 ## Open questions
 

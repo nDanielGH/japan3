@@ -5,9 +5,11 @@ hub: null
 sunset: null
 ---
 
+# Itinerary day
+
 ## Morning
 
-Use relative links only for selected attractions:
+Link selected attractions only, using:
 `[Name](../attractions/selected/slug.md)`.
 
 ## Afternoon
@@ -16,5 +18,5 @@ Use relative links only for selected attractions:
 
 ## Logistics / notes
 
-Keep `sunset` sourced from this hub's constraints table. Schedule
-`daylight_sensitive: yes` activities early enough to finish before sunset.
+Use the hub constraints table for `sunset`; schedule
+`daylight_sensitive: yes` activities before sunset.

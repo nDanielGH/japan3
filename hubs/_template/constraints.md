@@ -1,14 +1,14 @@
 # Hub constraints
 
-Rules specific to this hub: check-in/out times, max comfortable day-trip distance, local transit notes, and scheduling rules that don't apply trip-wide.
+Record hub-only rules: check-in/out, day-trip limits, local transit, and
+scheduling.
 
 Trip-wide rules belong in the root `constraints.md` file.
 
 ## Daylight
 
-Sunset times for this hub's date range — fill from an almanac (source URL +
-access date) before drafting itineraries. 2026 times are assumed equal to
-2025 (see root `constraints.md`).
+Before drafting itineraries, fill this table from an almanac with source URL and
+access date. 2026 uses 2025 times (see root `constraints.md`).
 
 | Date range | Sunset (local) | Source / accessed |
 | ---------- | -------------- | ----------------- |
