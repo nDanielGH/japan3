@@ -2,15 +2,7 @@
 
 A git-backed plan for a vacation in Japan. This repo tracks research, triage decisions, hub allocation, and day-by-day ordering — not software.
 
-## Trip dates
-
-| | |
-|---|---|
-| **Arrival** | Narita, 18 Oct, 17:05 |
-| **Departure** | Narita, 19 Nov, 15:45 |
-| **Span** | ~32 nights / 33 calendar days |
-
-Budget is not a constraint. Daylight hours will matter when building itineraries.
+Trip-wide hard rules (dates, budget, daylight) live in [constraints/](constraints/).
 
 ## Status
 
