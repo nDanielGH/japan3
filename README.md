@@ -2,7 +2,7 @@
 
 A git-backed plan for a vacation in Japan. This repo tracks research, triage decisions, hub allocation, and day-by-day ordering — not software.
 
-Trip-wide hard rules (dates, budget, daylight) live in [constraints/](constraints/).
+Trip-wide hard rules (dates, budget, daylight) live in [constraints.md](constraints.md).
 
 ## Status
 
