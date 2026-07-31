@@ -113,7 +113,8 @@ Enable the versioned hook once per clone:
 git config core.hooksPath .githooks
 ```
 
-It runs `python scripts/validate.py` and blocks inconsistent commits.
+The hook runs `python scripts/validate.py` and the configured Markdown checks
+before each commit.
 
 ## Commit conventions
 

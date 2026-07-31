@@ -1,8 +1,11 @@
 #!/usr/bin/env python
-"""Run the repository validator before each commit."""
+"""Run repository validation and Markdown checks before each commit."""
 
+import site
+import shutil
 import subprocess
 import sys
+import sysconfig
 from pathlib import Path
 
 
@@ -13,4 +16,49 @@ repo_root = Path(
     ).strip()
 )
 validator = repo_root / "scripts" / "validate.py"
-raise SystemExit(subprocess.call([sys.executable, str(validator)], cwd=repo_root))
+result = subprocess.call([sys.executable, str(validator)], cwd=repo_root)
+if result:
+    raise SystemExit(result)
+
+markdown_files = [
+    path
+    for path in subprocess.check_output(
+        ["git", "ls-files", "-z", "--", "*.md"],
+        cwd=repo_root,
+    )
+    .decode()
+    .split("\0")
+    if path and (repo_root / path).is_file()
+]
+
+if not markdown_files:
+    raise SystemExit(0)
+
+rumdl = shutil.which("rumdl")
+if rumdl is None:
+    script_dirs = [
+        Path(sysconfig.get_path("scripts")),
+        (
+            Path(site.getuserbase())
+            / f"Python{sys.version_info.major}{sys.version_info.minor}"
+            / "Scripts"
+        ),
+    ]
+    candidates = [
+        scripts_dir / executable
+        for scripts_dir in script_dirs
+        for executable in ("rumdl", "rumdl.exe")
+    ]
+    rumdl = next((str(path) for path in candidates if path.is_file()), None)
+
+if rumdl is None:
+    print(
+        "rumdl is required for Markdown checks; install it with "
+        "`python -m pip install --user rumdl`.",
+        file=sys.stderr,
+    )
+    raise SystemExit(1)
+
+raise SystemExit(
+    subprocess.call([rumdl, "check", *markdown_files], cwd=repo_root)
+)

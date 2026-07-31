@@ -9,6 +9,7 @@ allocate nights, and build the itinerary.
 - [AGENTS.md](AGENTS.md) — agent rules and validation.
 - [workflow.md](workflow.md) — stages and completion criteria.
 - [schema.md](schema.md) — file shape and invariants.
+- [CONTRIBUTING.md](CONTRIBUTING.md) — local setup and contribution checks.
 - [hubs/AGENTS.md](hubs/AGENTS.md) — rules for `hubs/`.
 
 ## Status
