@@ -10,4 +10,4 @@ Structure only — planning not started.
 
 ## How to use this repo
 
-See [meta/workflow.md](meta/workflow.md) for the planning stages. Each sleep base (hub) lives under [hubs/](hubs/); copy [hubs/_template/](hubs/_template/) to add a new hub.
+See [workflow.md](workflow.md) for the planning stages. Each sleep base (hub) lives under [hubs/](hubs/); copy [hubs/_template/](hubs/_template/) to add a new hub.
