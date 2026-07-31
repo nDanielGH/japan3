@@ -1,13 +1,16 @@
-# Hub template
-
-Copy this folder to create a new hub. This is not a real stop.
-
-```yaml
 ---
-name:
-nights:              # e.g. 5 — nights allocated to this hub (not per attraction)
-date_range:          # e.g. 2026-10-19 — 2026-10-24
-base_location:       # where you're sleeping
-notes:
+schema_version: 1
+id: null
+name: null
+nights: null
+date_range: null
+base_location: null
+status: candidate
+notes: null
 ---
-```
+
+# Hub
+
+Add concise context about this sleep base here after copying the template.
+Keep trip-wide constants in the root `constraints.md` and local rules in this
+hub's `constraints.md`.

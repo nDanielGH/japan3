@@ -1,0 +1,16 @@
+#!/usr/bin/env python
+"""Run the repository validator before each commit."""
+
+import subprocess
+import sys
+from pathlib import Path
+
+
+repo_root = Path(
+    subprocess.check_output(
+        ["git", "rev-parse", "--show-toplevel"],
+        text=True,
+    ).strip()
+)
+validator = repo_root / "scripts" / "validate.py"
+raise SystemExit(subprocess.call([sys.executable, str(validator)], cwd=repo_root))
