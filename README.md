@@ -16,10 +16,10 @@ allocate nights, and build the itinerary.
 ## Status
 
 ```yaml
-focus: hub discovery and attraction research
-hubs: []            # active hub folder names, e.g. [tokyo, kyoto]
-next_actions: add candidate hubs; add researched attractions to inboxes
-updated: 2026-07-31
+focus: Nagano hub discovery and attraction research
+hubs: [nagano]
+next_actions: research Nagano; add researched attractions to Nagano's inbox; add remaining candidate hubs
+updated: 2026-08-01
 ```
 
 This dashboard summarizes current work; it is not a workflow state machine.
