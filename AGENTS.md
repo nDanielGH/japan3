@@ -25,51 +25,23 @@ for workstreams and dependencies.
 
 ## Operations
 
-### Add a hub
+Project skills in `.cursor/skills/` encode repeatable procedures:
 
-1. Copy `hubs/_template/` to `hubs/<name>/` (kebab-case).
-2. Fill its README frontmatter (`name`, `nights`, `date_range`, `base_location`).
-3. Add the folder name to the `hubs:` list in the root README Status dashboard.
+- `hub-create`, `hub-research`, and `hub-reject`
+- `attraction-create`, `attraction-research`, and `attraction-triage`
+- `hub-draft-schedule` and `hub-draft-day-itinerary`
+- `hub-validate-reconcile`
 
-### Reject a hub
+Read the relevant skill before performing one of these operations. Skills may
+provide more detailed steps, but they do not override the rules below, the
+schema, or canonical constraints.
 
-- Move the entire directory to `hubs/graveyard/<name>/`; this records the
-  rejection. Exclude it from README Status `hubs:`; add context if useful.
-
-### Add an attraction
-
-1. Copy `hubs/<name>/attractions/_template.md` to `attractions/inbox/`.
-2. Use a unique, lowercase kebab-case filename.
-3. Use `null` for unknown frontmatter values; put unknowns under
-   `## Open questions` as `- [ ]` items.
-4. For popular attractions, check `booking_required`; if yes, set `book_by`.
-
-### Triage an attraction
-
-- `git mv` between `inbox/`, `shortlisted/`, `selected/`, and `skipped/`.
-  **The folder alone indicates status.**
-- A file entering `skipped/` must have `skip_reason` filled in.
-- Research and prepare triage recommendations, but ask the user to confirm every
-  final `selected` or `skipped` decision before moving the file.
-
-### Reference attractions
+### References
 
 - In prose and research notes, use stable `hub/slug` references (for example
   `kyoto/fushimi-inari`); do not use triage paths.
 - Itinerary days instead use resolving relative links to
   `../attractions/selected/<slug>.md`.
-
-### Schedule a hub
-
-- Set `nights` and `date_range` together in the target hub README frontmatter.
-- Partial schedules are allowed, but ranges may not overlap. Never allocate
-  time to individual attractions.
-
-### Draft itinerary days
-
-1. Copy `_day-template.md` to `itinerary/YYYY-MM-DD.md`.
-2. Fill `sunset:` from the target hub's constraints daylight table when known.
-3. Schedule `daylight_sensitive: yes` activities early in the day.
 
 ## Facts, uncertainty, and open questions
 
@@ -97,18 +69,19 @@ Run `python scripts/validate.py` and fix failures.
 
 - It validates hub structure/metadata, attraction triage and `skip_reason`,
   unique IDs, links/references, source dates, `UNVERIFIED` questions, and the
-  README Status dashboard.
+  README Status dashboard, including the declared skill inventory.
 - It validates every present schedule independently, rejects overlapping
   schedules, and checks full trip coverage when all active hubs are scheduled.
 - It validates each present itinerary day against its own hub, schedule, links,
-  and sunset metadata.
+  and sourced sunset metadata. A hub marked `complete` must have every
+  scheduled sleep night represented by an itinerary day.
 
 ## Markdown dependency review
 
-Before editing Markdown, run `python scripts/validate.py --references <path>`;
-read every referring file, including templates and agent instructions; inspect
-semantic references as well as links; update affected dependents; then run the
-validator again. The reference output is only a discovery aid.
+Use `hub-validate-reconcile` for the full dependency review. Before editing
+Markdown, run `python scripts/validate.py --references <path>`; update affected
+dependents and run the validator again. The skill owns the detailed discovery
+and reconciliation procedure; the reference output is only a discovery aid.
 
 ## Git hook
 

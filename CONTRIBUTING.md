@@ -14,7 +14,8 @@ Install the Markdown linter once on each machine:
 python -m pip install --user rumdl
 ```
 
-The pre-commit hook runs `python scripts/validate.py` and `rumdl check` over
-tracked Markdown files. Rumdl applies standard Markdown rules and checks local
-file links (`MD057`) and heading anchors (`MD051`). It is installed outside the
-repository, so the project does not gain a runtime dependency.
+The pre-commit hook exports the staged Git index to a temporary snapshot, then
+runs `python scripts/validate.py` and `rumdl check` against that snapshot.
+Rumdl applies standard Markdown rules and checks local file links (`MD057`) and
+heading anchors (`MD051`). It is installed outside the repository, so the
+project does not gain a runtime dependency.

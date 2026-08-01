@@ -15,6 +15,10 @@ change trip dates without user confirmation.
 
 Budget is not a constraint.
 
+## Packing
+
+I will not be carrying a suitcase; I will travel with only a 40L backpack.
+
 ## Daylight
 
 The sun sets before 17:00 for most of the trip; schedule

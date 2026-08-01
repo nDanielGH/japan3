@@ -11,6 +11,7 @@ allocate nights, and build the itinerary.
 - [schema.md](schema.md) — file shape and invariants.
 - [CONTRIBUTING.md](CONTRIBUTING.md) — local setup and contribution checks.
 - [hubs/AGENTS.md](hubs/AGENTS.md) — rules for `hubs/`.
+- `.cursor/skills/` — repeatable repository operations for planning agents.
 
 ## Status
 

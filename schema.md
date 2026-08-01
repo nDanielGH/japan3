@@ -113,13 +113,18 @@ Filename and `date` must be `YYYY-MM-DD` and match; `hub` must match the parent.
 Dates must fall inside the hub's half-open sleep interval `[start, end)` when
 that hub has a schedule. A partial plan may contain day files for only some
 scheduled nights; once the trip is complete, every scheduled sleep night needs
-one day file. A drafted day with a sunset must use a local time in `HH:MM`.
-Only selected attractions may be linked from an itinerary day, using the
-relative link form above.
+one day file. A present itinerary day must include a sourced local sunset in
+`HH:MM` and match the hub daylight table. A hub with `status: complete` must
+have one valid day file for every scheduled sleep night. Only selected
+attractions may be linked from an itinerary day, using exactly the relative
+link form above.
 
 ## Source lines and open questions
 
 A source line is a Markdown list item with one URL and exact
-`accessed YYYY-MM-DD`; its claim must identify what it supports. An unchecked
-question is one `- [ ]` line under `## Open questions`. Matching is semantic:
-it must identify the unresolved claim, not merely repeat `UNVERIFIED`.
+`accessed YYYY-MM-DD`; its claim must identify what it supports. Hub daylight
+tables use inclusive `YYYY-MM-DD` or `YYYY-MM-DD to YYYY-MM-DD` ranges, local
+`HH:MM` sunset values, and a source cell containing a URL plus
+`accessed YYYY-MM-DD`. An unchecked question is one `- [ ]` line under
+`## Open questions`. Matching is semantic: it must identify the unresolved
+claim, not merely repeat `UNVERIFIED`.
