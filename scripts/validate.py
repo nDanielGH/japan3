@@ -66,23 +66,12 @@ class Validator:
             self.error(path, "missing YAML Status block")
             return {}
         status = parse_yaml_block(match.group(1), self, path)
-        stage_names = {
-            0: "not started",
-            1: "research",
-            2: "triage",
-            3: "hub clustering",
-            4: "time allocation",
-            5: "ordering",
-        }
-        stage = status.get("stage")
-        if not isinstance(stage, int) or stage not in stage_names:
-            self.error(path, "stage must be an integer from 0 through 5")
-        elif status.get("stage_name") != stage_names[stage]:
-            self.error(path, "stage_name does not match stage")
+        if not status.get("focus"):
+            self.error(path, "focus must be non-empty")
         if not isinstance(status.get("hubs"), list):
             self.error(path, "hubs must be a YAML list")
-        if not status.get("next_action"):
-            self.error(path, "next_action must be non-empty")
+        if not status.get("next_actions"):
+            self.error(path, "next_actions must be non-empty")
         if not ISO_DATE.match(str(status.get("updated", ""))):
             self.error(path, "updated must be an ISO date")
         return status
@@ -121,8 +110,8 @@ class Validator:
 
     def check_hubs(self, hubs: list[Path], status: dict, trip: dict) -> dict[str, set[str]]:
         all_attractions: dict[str, set[str]] = {}
-        stage = status.get("stage", 0)
         ranges: list[tuple[date, date, Path]] = []
+        scheduled_hubs = 0
         for hub in hubs:
             required = {"README.md", "constraints.md", "attractions", "itinerary", "research"}
             for name in required:
@@ -182,56 +171,51 @@ class Validator:
                     self.error(path, "duplicate itinerary date")
                 itinerary_dates.add(day)
                 self.check_selected_links(path, body, hub)
-                if stage >= 5:
-                    sunset = metadata.get("sunset")
-                    if not isinstance(sunset, str) or not re.fullmatch(r"(?:[01]\d|2[0-3]):[0-5]\d", sunset):
-                        self.error(path, "stage 5 itinerary sunset must be a local HH:MM value")
-
-            if stage >= 5:
-                constraints = hub / "constraints.md"
-                constraints_text = constraints.read_text(encoding="utf-8") if constraints.exists() else ""
-                if not any(
-                    line.lstrip().startswith("|")
-                    and ("http://" in line or "https://" in line)
-                    and re.search(r"accessed \d{4}-\d{2}-\d{2}", line)
-                    for line in constraints_text.splitlines()
+                sunset = metadata.get("sunset")
+                if sunset is not None and (
+                    not isinstance(sunset, str)
+                    or not re.fullmatch(r"(?:[01]\d|2[0-3]):[0-5]\d", sunset)
                 ):
-                    self.error(constraints, "stage 5 requires a sourced daylight table entry")
+                    self.error(path, "itinerary sunset must be a local HH:MM value or null")
 
-            if stage >= 4:
-                nights = meta.get("nights")
-                date_range = parse_date_range(meta.get("date_range"))
-                if not isinstance(nights, int) or nights <= 0:
-                    self.error(readme, "stage 4+ hubs need positive integer nights")
-                if date_range is None:
-                    self.error(readme, "stage 4+ hubs need date_range [start, end]")
-                else:
-                    start, end = date_range
-                    if not (trip.get("trip_start") <= start <= end <= trip.get("trip_end")):
-                        self.error(readme, "date_range must be inside the canonical trip window")
-                    if isinstance(nights, int) and (end - start).days != nights:
-                        self.error(readme, "nights must equal date_range end minus start")
-                    ranges.append((start, end, readme))
-                if stage >= 5 and date_range:
-                    expected = {date.fromordinal(n) for n in range(date_range[0].toordinal(), date_range[1].toordinal())}
-                    missing = expected - itinerary_dates
-                    extra = itinerary_dates - expected
-                    if missing:
-                        self.error(hub / "itinerary", f"missing itinerary dates: {sorted(missing)}")
-                    if extra:
-                        self.error(hub / "itinerary", f"itinerary dates outside sleep range: {sorted(extra)}")
+            nights = meta.get("nights")
+            date_range = parse_date_range(meta.get("date_range"))
+            has_nights = nights is not None
+            has_date_range = meta.get("date_range") is not None
+            if has_nights != has_date_range:
+                self.error(readme, "nights and date_range must be provided together")
+            if has_nights and (not isinstance(nights, int) or nights <= 0):
+                self.error(readme, "scheduled hubs need positive integer nights")
+            if has_date_range and date_range is None:
+                self.error(readme, "date_range must be [start, end] with ISO dates")
+            if date_range:
+                start, end = date_range
+                if not (trip.get("trip_start") <= start <= end <= trip.get("trip_end")):
+                    self.error(readme, "date_range must be inside the canonical trip window")
+                if isinstance(nights, int) and (end - start).days != nights:
+                    self.error(readme, "nights must equal date_range end minus start")
+                ranges.append((start, end, readme))
+                scheduled_hubs += 1
+                for day in itinerary_dates:
+                    if not (start <= day < end):
+                        self.error(hub / "itinerary", f"itinerary date outside sleep range: {day}")
+            elif itinerary_dates:
+                self.error(readme, "itinerary days require a valid hub schedule")
 
-        if stage >= 4:
+        if ranges:
             ranges.sort()
-            if ranges:
+            for previous, current in zip(ranges, ranges[1:]):
+                if previous[1] > current[0]:
+                    self.error(current[2], "hub date ranges must not overlap")
+            if scheduled_hubs == len(hubs):
                 if ranges[0][0] != trip.get("trip_start") or ranges[-1][1] != trip.get("trip_end"):
                     self.error(ROOT / "constraints.md", "hub date ranges must cover the trip window")
                 for previous, current in zip(ranges, ranges[1:]):
                     if previous[1] != current[0]:
                         self.error(current[2], "hub date ranges must be contiguous with no gap or overlap")
-            total = sum((end - start).days for start, end, _ in ranges)
-            if total != trip.get("trip_nights"):
-                self.error(ROOT / "constraints.md", "hub nights do not sum to trip_nights")
+                total = sum((end - start).days for start, end, _ in ranges)
+                if total != trip.get("trip_nights"):
+                    self.error(ROOT / "constraints.md", "hub nights must sum to trip_nights")
         return all_attractions
 
     def check_id(self, path: Path, metadata: dict, expected: str, seen: set[str]) -> None:

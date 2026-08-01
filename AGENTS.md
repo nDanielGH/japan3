@@ -7,8 +7,9 @@ consistent while executing [workflow.md](workflow.md).
 
 Use this authority order: filesystem for existence and triage status; YAML
 frontmatter for file metadata; root [constraints.md](constraints.md) for
-trip-wide constants; README Status as a cache; this file for operations,
-[schema.md](schema.md) for file shape, and [workflow.md](workflow.md) for stages.
+trip-wide constants; README Status as a dashboard cache; this file for
+operations, [schema.md](schema.md) for file shape, and [workflow.md](workflow.md)
+for workstreams and dependencies.
 
 ## On session start
 
@@ -16,9 +17,10 @@ trip-wide constants; README Status as a cache; this file for operations,
    and [schema.md](schema.md).
 2. Read [hubs/AGENTS.md](hubs/AGENTS.md) before working inside `hubs/`.
 3. Check `hubs/graveyard/` before proposing a hub that may already have been rejected.
-4. Work on the current stage. Ask before jumping ahead or reopening a finished stage.
-5. Run `python scripts/validate.py` after non-trivial edits and before stage
-   completion.
+4. Choose a workstream whose local prerequisites are satisfied; unrelated hubs
+   may be at different levels of readiness.
+5. Run `python scripts/validate.py` after non-trivial edits and before treating
+   a hub or the trip as complete.
 6. Before editing Markdown, run `python scripts/validate.py --references <path>`.
 
 ## Operations
@@ -27,7 +29,7 @@ trip-wide constants; README Status as a cache; this file for operations,
 
 1. Copy `hubs/_template/` to `hubs/<name>/` (kebab-case).
 2. Fill its README frontmatter (`name`, `nights`, `date_range`, `base_location`).
-3. Add the folder name to the `hubs:` list in the root README Status block.
+3. Add the folder name to the `hubs:` list in the root README Status dashboard.
 
 ### Reject a hub
 
@@ -57,15 +59,16 @@ trip-wide constants; README Status as a cache; this file for operations,
 - Itinerary days instead use resolving relative links to
   `../attractions/selected/<slug>.md`.
 
-### Allocate time (stage 4)
+### Schedule a hub
 
-- Set `nights` and `date_range` in each hub README frontmatter. Never allocate
+- Set `nights` and `date_range` together in the target hub README frontmatter.
+- Partial schedules are allowed, but ranges may not overlap. Never allocate
   time to individual attractions.
 
-### Draft itinerary days (stage 5)
+### Draft itinerary days
 
 1. Copy `_day-template.md` to `itinerary/YYYY-MM-DD.md`.
-2. Fill `sunset:` from the hub constraints daylight table.
+2. Fill `sunset:` from the target hub's constraints daylight table when known.
 3. Schedule `daylight_sensitive: yes` activities early in the day.
 
 ## Facts, uncertainty, and open questions
@@ -85,18 +88,20 @@ trip-wide constants; README Status as a cache; this file for operations,
 - Never change trip dates without user confirmation; root `constraints.md`
   frontmatter is canonical.
 - Do not create parallel indexes; filesystem and frontmatter are the index.
-- Keep README Status current when the stage or hub set changes.
+- Keep the README Status dashboard current when the focus, next actions, or hub
+  set changes.
 
 ## Validation
 
-Run `python scripts/validate.py`. Fix failures or explain any intentionally
-inapplicable stage-gated check.
+Run `python scripts/validate.py` and fix failures.
 
 - It validates hub structure/metadata, attraction triage and `skip_reason`,
-  unique IDs, links/references, source dates, `UNVERIFIED` questions, and
-  README Status.
-- From stage 3 it validates selected-attraction hub placement; from stage 4,
-  nights/date ranges; from stage 5, itinerary dates, hubs, links, and sunsets.
+  unique IDs, links/references, source dates, `UNVERIFIED` questions, and the
+  README Status dashboard.
+- It validates every present schedule independently, rejects overlapping
+  schedules, and checks full trip coverage when all active hubs are scheduled.
+- It validates each present itinerary day against its own hub, schedule, links,
+  and sunset metadata.
 
 ## Markdown dependency review
 
@@ -134,4 +139,5 @@ docs: update workflow rules
 - **Hub** — sleep base under `hubs/`; time is allocated per hub.
 - **Attraction** — place/activity represented by one triaged Markdown file.
 - **Triage** — `inbox → shortlisted → selected/skipped`.
-- **Stage** — current phase of the five in `workflow.md`.
+- **Hub schedule** — the higher-level allocation of nights and dates to hubs.
+- **Day itinerary** — the ordered plan for one date within one hub.

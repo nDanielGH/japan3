@@ -26,4 +26,6 @@ them. The location records rejection; add context to its README if needed.
 - `itinerary/` — one `YYYY-MM-DD.md` per day.
 - `research/` — sources and open questions.
 
-Root `AGENTS.md` governs triage, research, itinerary, and validation.
+Root `AGENTS.md` governs triage, research, hub schedules, day itineraries, and
+validation. Work on each hub independently; another hub does not need to be at
+the same readiness level.

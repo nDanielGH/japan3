@@ -5,8 +5,8 @@ description: Draft and validate one Japan trip itinerary day from selected attra
 
 # Draft Itinerary Day
 
-Use this skill only within the Japan trip repository. This is a stage 5
-procedure; ask before advancing to stage 5 or reopening a completed stage.
+Use this skill only within the Japan trip repository. This is a repeatable
+workstream for one scheduled hub day; unrelated hubs need not be ready.
 Read `AGENTS.md`, `workflow.md`, `schema.md`, root `constraints.md`, and the
 hub's `constraints.md`.
 

@@ -7,7 +7,7 @@ allocate nights, and build the itinerary.
 
 - [constraints.md](constraints.md) — canonical trip constants and rules.
 - [AGENTS.md](AGENTS.md) — agent rules and validation.
-- [workflow.md](workflow.md) — stages and completion criteria.
+- [workflow.md](workflow.md) — iterative workstreams and completion criteria.
 - [schema.md](schema.md) — file shape and invariants.
 - [CONTRIBUTING.md](CONTRIBUTING.md) — local setup and contribution checks.
 - [hubs/AGENTS.md](hubs/AGENTS.md) — rules for `hubs/`.
@@ -15,13 +15,13 @@ allocate nights, and build the itinerary.
 ## Status
 
 ```yaml
-stage: 0            # 0 = not started; 1–5 per workflow.md
-stage_name: not started
-hubs: []            # hub folder names, e.g. [tokyo, kyoto]
-next_action: stage 1 — create candidate hubs, fill attraction inboxes
+focus: hub discovery and attraction research
+hubs: []            # active hub folder names, e.g. [tokyo, kyoto]
+next_actions: add candidate hubs; add researched attractions to inboxes
 updated: 2026-07-31
 ```
 
-This synchronized cache lists active hub folders; the filesystem and
-frontmatter are authoritative. Run the validator after edits and update this
-block when the stage or hub set changes.
+This dashboard summarizes current work; it is not a workflow state machine.
+The filesystem and frontmatter are authoritative for hub and attraction
+readiness. Run the validator after edits and update this block when the active
+hub set, focus, or next actions change.

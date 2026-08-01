@@ -7,8 +7,8 @@ description: Research a Japan trip attraction and create a sourced inbox record 
 
 Use this skill only within the Japan trip repository. Read the applicable
 `AGENTS.md`, `schema.md`, root `constraints.md`, and hub constraints first.
-This is a stage 1 procedure; check the current stage and ask before advancing
-to stage 1 or reopening a completed stage.
+This is a repeatable workstream for any active hub. Check the target hub's
+local readiness and proceed independently of other hubs.
 
 ## Procedure
 

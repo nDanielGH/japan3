@@ -1,12 +1,44 @@
 import contextlib
 import io
+import tempfile
 import unittest
 from datetime import date
+from pathlib import Path
+from unittest.mock import patch
 
 from scripts.validate import Validator, find_references, parse_date_range, parse_scalar
 
 
 class ValidatorHelpersTest(unittest.TestCase):
+    def make_partial_repository(self, root: Path):
+        (root / "hubs").mkdir()
+        (root / "constraints.md").write_text(
+            "---\ntrip_start: 2026-10-18\ntrip_end: 2026-11-19\ntrip_nights: 32\n---\n",
+            encoding="utf-8",
+        )
+        (root / "README.md").write_text(
+            "## Status\n\n```yaml\n"
+            "focus: research\nhubs: [tokyo, osaka]\n"
+            "next_actions: research tokyo; schedule osaka\nupdated: 2026-08-01\n"
+            "```\n",
+            encoding="utf-8",
+        )
+        for hub, schedule in (
+            ("tokyo", "nights: 5\ndate_range: [2026-10-18, 2026-10-23]"),
+            ("osaka", "nights: null\ndate_range: null"),
+        ):
+            hub_root = root / "hubs" / hub
+            for directory in ("attractions/inbox", "attractions/shortlisted",
+                              "attractions/selected", "attractions/skipped",
+                              "itinerary", "research"):
+                (hub_root / directory).mkdir(parents=True)
+            (hub_root / "README.md").write_text(
+                f"---\nid: {hub}\nname: {hub.title()}\n{schedule}\n"
+                "status: candidate\n---\n",
+                encoding="utf-8",
+            )
+            (hub_root / "constraints.md").write_text("# Constraints\n", encoding="utf-8")
+
     def test_parse_scalar_supports_schema_values(self):
         self.assertEqual(parse_scalar("null"), None)
         self.assertEqual(parse_scalar("yes"), True)
@@ -21,11 +53,21 @@ class ValidatorHelpersTest(unittest.TestCase):
         self.assertIsNone(parse_date_range(["2026-10-18"]))
         self.assertIsNone(parse_date_range(["2026-11-19", "2026-10-18"]))
 
-    def test_repository_is_valid_at_stage_zero(self):
+    def test_repository_is_valid_with_iterative_dashboard(self):
         output = io.StringIO()
         with contextlib.redirect_stdout(output):
             result = Validator().run()
         self.assertEqual(result, 0, output.getvalue())
+
+    def test_hubs_can_progress_independently(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            self.make_partial_repository(root)
+            with patch("scripts.validate.ROOT", root):
+                output = io.StringIO()
+                with contextlib.redirect_stdout(output):
+                    result = Validator().run()
+            self.assertEqual(result, 0, output.getvalue())
 
     def test_reference_audit_finds_inbound_markdown_mentions(self):
         references = find_references("README.md")

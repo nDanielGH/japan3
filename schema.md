@@ -19,17 +19,19 @@ collection membership/triage; frontmatter controls file metadata.
 - `UNVERIFIED` claims need a semantically matching unchecked `## Open
   questions` item. Do not use legacy assumed markers.
 
-## Root status
+## Root status dashboard
 
-The YAML block under `## Status` in root `README.md` contains:
+The YAML block under `## Status` in root `README.md` is a human-facing cache,
+not a workflow state machine. It contains:
 
-- `stage`: `0` before workflow stages begin, otherwise `1`–`5`.
-- `stage_name`: matching human-readable stage name.
-- `hubs`: active folder names only; exclude `_template`, `graveyard`, fixtures.
-- `next_action`: the next concrete planning action.
-- `updated`: the last date the status block changed.
-- `stage_name` must match [workflow.md](workflow.md); `hubs` must be a YAML list
-  matching active hub folders exactly.
+- `focus`: the current workstream or planning question.
+- `hubs`: active folder names only; exclude `_template`, `graveyard`, and
+  fixtures.
+- `next_actions`: the next concrete actions, as a semicolon-separated string.
+- `updated`: the last date the dashboard changed.
+
+The validator requires `focus`, `hubs`, `next_actions`, and `updated`. The
+filesystem and hub/attraction frontmatter remain authoritative for readiness.
 
 ## Hub frontmatter
 
@@ -50,11 +52,14 @@ notes: null
 `constraints.md`, `attractions/`, `itinerary/`, and `research/`; attraction
 subfolders are `inbox/`, `shortlisted/`, `selected/`, and `skipped/`.
 
-`status` is `candidate`, `active`, or `complete`. From stage 4, `nights` is a
-positive integer and `date_range` is `[start, end]` within the trip window.
+`status` is `candidate`, `active`, or `complete`. A schedule is optional while
+planning is partial; when present, `nights` and `date_range` must be provided
+together. `nights` is a positive integer and `date_range` is `[start, end]`
+within the trip window.
 Its sleep interval is half-open `[start, end)`, so
 `nights = (end date - start date).days`; hub ranges are contiguous, cover the
-trip span, and do not overlap. Rejected hubs remain under `hubs/graveyard/`.
+trip span, and do not overlap when all active hubs have schedules. Partial
+schedules must not overlap. Rejected hubs remain under `hubs/graveyard/`.
 
 ## Attraction frontmatter
 
@@ -105,13 +110,12 @@ sunset: "16:58"
 ```
 
 Filename and `date` must be `YYYY-MM-DD` and match; `hub` must match the parent.
-Dates must fall inside the hub's half-open sleep interval `[start, end)`.
-Stage 5 requires one day file per sleep night; the next hub represents
-checkout/transfer dates, without duplication.
-`sunset` is `null` until the hub daylight table has a sourced value; at stage
-5 completion it must be a local time in `HH:MM`. Only selected
-attractions may be linked from an itinerary day, using the relative link form
-above.
+Dates must fall inside the hub's half-open sleep interval `[start, end)` when
+that hub has a schedule. A partial plan may contain day files for only some
+scheduled nights; once the trip is complete, every scheduled sleep night needs
+one day file. A drafted day with a sunset must use a local time in `HH:MM`.
+Only selected attractions may be linked from an itinerary day, using the
+relative link form above.
 
 ## Source lines and open questions
 

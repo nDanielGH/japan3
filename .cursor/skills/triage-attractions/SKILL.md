@@ -7,20 +7,20 @@ description: Review and classify Japan trip attraction records through inbox, sh
 
 Use this skill only within the Japan trip repository. Read `AGENTS.md`,
 `hubs/AGENTS.md`, `workflow.md`, and `schema.md` before changing records.
-This is a stage 2 procedure; check the current stage and ask before advancing
-to stage 2 or reopening a completed stage.
+This is a repeatable workstream for one hub. Check the target hub's attraction
+collections and local prerequisites; other hubs need not be ready.
 
 ## Procedure
 
-1. Confirm the current stage permits triage and inspect the target hub's
-   attraction collections.
+1. Confirm the target hub exists and inspect its attraction collections.
 2. Review each candidate's purpose, logistics, duration, daylight sensitivity,
    booking needs, sources, and open questions.
 3. Check hub constraints and look for duplicate or conflicting attraction
    records.
 4. Prepare a recommendation for each record:
    - `shortlisted` when it merits further consideration
-   - `selected` when it is ready for itinerary planning
+   - `selected` when it is ready for later day itinerary planning, subject to
+     that hub having a valid schedule
    - `skipped` when it should not be planned, with a specific reason
 5. Present recommendations and unresolved questions to the user.
 6. Wait for explicit user confirmation before moving any file into
