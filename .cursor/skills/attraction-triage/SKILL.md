@@ -14,6 +14,9 @@ disable-model-invocation: true
 - State the criteria, evidence, uncertainty, and conflicts behind the proposal.
 - Run `python scripts/validate.py --references <attraction-file>` before
   editing its Markdown.
+- Follow the repository Mutation protocol. The owned paths are the source
+  attraction and its target triage path; stop if either overlaps existing user
+  changes.
 
 ## Decision boundaries
 
@@ -31,8 +34,9 @@ disable-model-invocation: true
    untracked records.
 3. Keep `skip_reason: null` outside `skipped/`; set it only to the approved
    reason inside `skipped/`.
-4. Run `python scripts/validate.py`. If validation fails, stop and report the
-   failure without silently making further moves.
+4. Run `python scripts/validate.py` and the configured Markdown checks against
+   the moved attraction. If any check fails, restore the source and target
+   paths from the pre-operation backup and report the failure.
 
 Do not assign dates, create itinerary days, delete records, overwrite an
 existing destination, or silently resolve open questions.

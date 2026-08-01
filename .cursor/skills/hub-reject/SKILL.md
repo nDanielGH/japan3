@@ -13,6 +13,9 @@ disable-model-invocation: true
 - Confirm the hub exists and is not `_template` or `graveyard`.
 - Run `python scripts/validate.py --references hubs/<name>/README.md` and
   `--references README.md` before editing either Markdown file.
+- Follow the repository Mutation protocol. The owned paths are the active hub
+  directory, its proposed graveyard destination, and the root `README.md`;
+  stop if any overlaps existing user changes.
 
 ## Confirmation boundary
 
@@ -25,8 +28,10 @@ Before moving anything, report the proposed source, destination, and reason:
 2. Add the rejection reason to the hub README without deleting research or
    context.
 3. Remove the hub name from root README Status `hubs:` and update the dashboard.
-4. Run `python scripts/validate.py`. If validation fails, stop and report the
-   failure without overwriting the graveyard or dashboard.
+4. Run `python scripts/validate.py` and the configured Markdown checks against
+   every changed Markdown file. If any check fails, restore the active hub,
+   graveyard destination, and dashboard from the pre-operation backup and
+   report the failure.
 
 Never delete a hub or overwrite an existing graveyard entry. Stop if the
 destination exists or the reason is missing.

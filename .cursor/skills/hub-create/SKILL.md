@@ -11,6 +11,9 @@ disable-model-invocation: true
 - Read `AGENTS.md`, `hubs/AGENTS.md`, `schema.md`, and `constraints.md`.
 - Check `hubs/graveyard/` for a previously rejected hub with the same identity.
 - Confirm the requested name is unique, lowercase kebab-case, and is not `_template` or `graveyard`.
+- Follow the repository Mutation protocol. The owned paths are the new
+  `hubs/<name>/` directory and the root `README.md`; stop if either overlaps
+  existing user changes.
 
 ## Allowed operation
 
@@ -24,8 +27,9 @@ disable-model-invocation: true
    schedule the hub.
 5. Add `<name>` to the root README Status `hubs:` list and update its focus,
    next actions, and date.
-6. Run `python scripts/validate.py`. If validation fails, stop and report the
-   failure without leaving a partially updated dashboard.
+6. Run `python scripts/validate.py` and the configured Markdown checks against
+   every changed Markdown file. If any check fails, restore the owned paths
+   from the pre-operation backup and report the failure.
 
 Do not invent local rules, sunset data, attractions, schedules, or research.
 Do not edit `hubs/_template/`. If the name already exists, stop and report it.

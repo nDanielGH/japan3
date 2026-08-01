@@ -14,6 +14,9 @@ disable-model-invocation: true
 - Identify which hubs are candidates, active, or already scheduled.
 - Run `python scripts/validate.py --references <hub-readme>` for every hub
   README that may change, and for `README.md` before changing the dashboard.
+- Follow the repository Mutation protocol. The owned paths are the hub
+  READMEs in the proposed schedule and the root `README.md`; stop if any
+  overlaps existing user changes.
 
 ## Allowed operation
 
@@ -26,8 +29,10 @@ disable-model-invocation: true
 4. Preserve unscheduled hubs as `nights: null` and `date_range: null`.
 5. Update the root README Status dashboard when the active scheduled set or
    next actions change.
-6. Run `python scripts/validate.py`. If validation fails, stop and report the
-   conflict; do not leave a partially updated schedule or dashboard.
+6. Run `python scripts/validate.py` and the configured Markdown checks against
+   every changed Markdown file. If any check fails, restore all scheduled hub
+   READMEs and the dashboard from the pre-operation backup and report the
+   conflict.
 
 This operation schedules sleep bases only. Do not assign attractions or create
 day files. If the user has not approved a route or night allocation, present

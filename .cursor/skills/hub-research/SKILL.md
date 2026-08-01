@@ -1,6 +1,7 @@
 ---
 name: hub-research
 description: Research and complete a Japan-trip hub with sourced local constraints, destination context, daylight data, and user-provided facts. Use when filling hub details.
+disable-model-invocation: true
 ---
 
 # Research hub
@@ -12,6 +13,9 @@ description: Research and complete a Japan-trip hub with sourced local constrain
 - Read `AGENTS.md`, `hubs/AGENTS.md`, `schema.md`, and root `constraints.md`.
 - Run `python scripts/validate.py --references <path>` for each existing or
   newly copied Markdown file to be edited.
+- Follow the repository Mutation protocol. Declare the exact hub Markdown
+  files owned by this operation and stop if any overlaps existing user
+  changes.
 
 ## Allowed operation
 
@@ -29,8 +33,9 @@ description: Research and complete a Japan-trip hub with sourced local constrain
 5. Mark unresolved claims `UNVERIFIED` and add one matching unchecked question
    under `## Open questions`.
 6. Preserve supported facts and ask before changing a user constraint.
-7. Run `python scripts/validate.py` after editing. If validation fails, stop
-   and report the failure without leaving partial research edits.
+7. Run `python scripts/validate.py` and the configured Markdown checks against
+   every changed Markdown file. If any check fails, restore all owned paths
+   from the pre-operation backup and report the failure.
 
 Do not schedule nights, select attractions, or invent local rules, sunset data,
 opening hours, or transit facts.

@@ -16,6 +16,9 @@ disable-model-invocation: true
 - For a new day, copy the template first and run
   `python scripts/validate.py --references <new-day-file>` before filling it.
   For a revision, run the reference audit before editing the existing file.
+- Follow the repository Mutation protocol. The owned path is the target day
+  file; for a new day it must not exist, and for a revision the existing file
+  must be explicitly identified. Stop if it overlaps existing user changes.
 
 ## Planning rules
 
@@ -40,5 +43,6 @@ silently deselect, move, or reschedule attractions.
 
 Create or revise `hubs/<hub>/itinerary/YYYY-MM-DD.md` from the template, use
 selected-attraction relative links, fill the sourced local `sunset`, then run
-`python scripts/validate.py`. If validation fails, stop and report the
+`python scripts/validate.py` and the configured Markdown checks. If any check
+fails, restore the target day file from the pre-operation backup and report the
 conflict rather than leaving a partial day file.

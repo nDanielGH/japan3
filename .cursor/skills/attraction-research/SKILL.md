@@ -1,6 +1,7 @@
 ---
 name: attraction-research
 description: Research and complete a Japan-trip attraction record using public sources and user-provided facts. Use when filling logistics, duration, daylight, booking, or decision context.
+disable-model-invocation: true
 ---
 
 # Research attraction
@@ -13,6 +14,9 @@ description: Research and complete a Japan-trip attraction record using public s
   editing Markdown.
 - Run the same reference audit for each research note that will be edited or
   created.
+- Follow the repository Mutation protocol. Declare the attraction and research
+  note paths owned by this operation and stop if any overlaps existing user
+  changes.
 
 ## Allowed operation
 
@@ -28,8 +32,9 @@ description: Research and complete a Japan-trip attraction record using public s
 5. If `booking_required: yes`, record a known `book_by` deadline or add an
    explicit question when it is unknown.
 6. Preserve the current triage folder and `skip_reason` semantics.
-7. Run `python scripts/validate.py`. If validation fails, stop and report the
-   failure rather than leaving a partially rewritten record or research note.
+7. Run `python scripts/validate.py` and the configured Markdown checks against
+   every changed Markdown file. If any check fails, restore the attraction and
+   research note paths from the pre-operation backup and report the failure.
 
 Do not select or skip the attraction, invent facts, or treat an unverified
 claim as established.

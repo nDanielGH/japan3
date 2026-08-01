@@ -83,6 +83,33 @@ Markdown, run `python scripts/validate.py --references <path>`; update affected
 dependents and run the validator again. The skill owns the detailed discovery
 and reconciliation procedure; the reference output is only a discovery aid.
 
+## Mutation protocol
+
+Every operation that creates, edits, moves, or renames repository files must
+use this protocol:
+
+1. Before writing, run `git status --short` and identify every path the
+   operation owns, including affected dependents. Stop and ask if an owned
+   path already has staged, unstaged, or untracked user changes.
+2. Confirm all destinations are absent or explicitly approved for revision.
+   Never overwrite an existing file or directory implicitly.
+3. Capture an exact backup of every owned path, including paths that will be
+   moved or deleted, outside the repository before the first write. Keep
+   unrelated working-tree changes untouched.
+4. Apply the complete operation, then run `python scripts/validate.py` and
+   `rumdl check <changed Markdown files>` against every changed Markdown file.
+   If Rumdl is unavailable, report that the operation is not fully verified.
+5. If any check fails, restore only the owned paths from the backup, remove
+   only paths created by the operation, and report the failure. Never use
+   destructive Git commands or discard unrelated changes.
+6. Re-read the final diff, confirm the operation-owned paths are the only
+   changes, and report unresolved questions. Do not commit or push unless the
+   user separately asks.
+
+For a move or multi-file change, treat the operation as one transaction:
+partial success is not completion. A validation failure must leave the
+repository at its pre-operation state for all owned paths.
+
 ## Git hook
 
 Enable the versioned hook once per clone:
