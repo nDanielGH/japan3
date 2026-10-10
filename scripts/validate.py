@@ -17,6 +17,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 TRIAGE = {"inbox", "shortlisted", "selected", "skipped"}
+IGNORED_PATH_PARTS = {".git", ".cursor", ".firecrawl"}
 KEBAB = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 ISO_DATE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 SOURCE_LINE = re.compile(
@@ -474,7 +475,7 @@ class Validator:
 
     def check_links(self) -> None:
         for path in ROOT.rglob("*.md"):
-            if any(part in {".git", ".cursor"} for part in path.parts):
+            if any(part in IGNORED_PATH_PARTS for part in path.parts):
                 continue
             text = path.read_text(encoding="utf-8")
             for target in MARKDOWN_LINK.findall(text):
@@ -489,7 +490,7 @@ class Validator:
 
     def check_legacy_assumptions(self) -> None:
         for path in ROOT.rglob("*.md"):
-            if any(part in {".git", ".cursor"} for part in path.parts):
+            if any(part in IGNORED_PATH_PARTS for part in path.parts):
                 continue
             text = path.read_text(encoding="utf-8")
             if "(assumed " in text:
@@ -618,7 +619,7 @@ def find_references(target: str) -> list[tuple[Path, int, str]]:
     names = {target_path.name, relative_name}
     references = []
     for path in ROOT.rglob("*.md"):
-        if path.resolve() == target_path or any(part in {".git", ".cursor"} for part in path.parts):
+        if path.resolve() == target_path or any(part in IGNORED_PATH_PARTS for part in path.parts):
             continue
         for line_number, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
             if any(name in line for name in names):
