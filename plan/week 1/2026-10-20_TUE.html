@@ -1,0 +1,1001 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#173f35">
+  <title>Togakushi Tuesday · 20 Oct 2026</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #f4f2ea;
+      --surface: #fffdf7;
+      --surface-2: #e9eee8;
+      --ink: #17201d;
+      --muted: #60706a;
+      --line: #d4dbd5;
+      --green: #173f35;
+      --green-2: #2d6657;
+      --gold: #b97922;
+      --red: #a33c30;
+      --shadow: 0 8px 28px rgba(23, 63, 53, .10);
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 12px;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font: 16px/1.45 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    button, select, input { font: inherit; }
+    button, a { touch-action: manipulation; }
+
+    a {
+      color: var(--green-2);
+      text-underline-offset: 3px;
+    }
+
+    .app {
+      width: min(100%, 680px);
+      margin: 0 auto;
+      padding: 0 14px calc(92px + env(safe-area-inset-bottom));
+    }
+
+    header {
+      padding: calc(22px + env(safe-area-inset-top)) 4px 14px;
+    }
+
+    .eyebrow {
+      margin: 0 0 4px;
+      color: var(--muted);
+      font-size: .78rem;
+      font-weight: 800;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(1.75rem, 7vw, 2.35rem);
+      line-height: 1.08;
+      letter-spacing: -.035em;
+    }
+
+    .date {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-weight: 650;
+    }
+
+    .now-card {
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 14px;
+      padding: 18px;
+      border-radius: 22px;
+      background: var(--green);
+      color: #fff;
+      box-shadow: var(--shadow);
+    }
+
+    .now-card::after {
+      position: absolute;
+      right: -35px;
+      bottom: -65px;
+      width: 150px;
+      height: 150px;
+      border: 26px solid rgba(255,255,255,.07);
+      border-radius: 50%;
+      content: "";
+    }
+
+    .now-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .status-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-size: .78rem;
+      font-weight: 850;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .status-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #83e0b5;
+      box-shadow: 0 0 0 5px rgba(131,224,181,.14);
+    }
+
+    #clock {
+      color: rgba(255,255,255,.82);
+      font-size: .88rem;
+      font-variant-numeric: tabular-nums;
+    }
+
+    #nowTitle {
+      margin: 18px 0 4px;
+      max-width: 86%;
+      font-size: 1.55rem;
+      line-height: 1.15;
+      letter-spacing: -.02em;
+    }
+
+    #nowTime {
+      margin: 0;
+      color: #bde6d5;
+      font-weight: 750;
+    }
+
+    #nowSummary {
+      position: relative;
+      z-index: 1;
+      margin: 12px 0 16px;
+      max-width: 92%;
+      color: rgba(255,255,255,.86);
+    }
+
+    .countdown {
+      display: inline-block;
+      margin-bottom: 15px;
+      padding: 6px 10px;
+      border: 1px solid rgba(255,255,255,.2);
+      border-radius: 999px;
+      background: rgba(255,255,255,.1);
+      font-size: .82rem;
+      font-weight: 750;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .now-button {
+      position: relative;
+      z-index: 1;
+      display: inline-flex;
+      min-height: 44px;
+      align-items: center;
+      padding: 10px 15px;
+      border: 0;
+      border-radius: 12px;
+      background: #fff;
+      color: var(--green);
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .preview {
+      margin: 0 0 18px;
+      padding: 0 2px;
+    }
+
+    .preview summary {
+      width: fit-content;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: .85rem;
+      font-weight: 700;
+    }
+
+    .preview-controls {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    select, .small-button {
+      min-height: 42px;
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      background: var(--surface);
+      color: var(--ink);
+    }
+
+    select {
+      flex: 1;
+      min-width: 0;
+      padding: 8px 34px 8px 10px;
+    }
+
+    .small-button {
+      padding: 8px 13px;
+      cursor: pointer;
+      font-weight: 750;
+    }
+
+    section { margin-top: 22px; }
+
+    .section-heading {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin: 0 2px 10px;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 1.15rem;
+      letter-spacing: -.015em;
+    }
+
+    .section-note {
+      color: var(--muted);
+      font-size: .78rem;
+    }
+
+    .prep-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .check-row {
+      display: flex;
+      min-height: 52px;
+      align-items: flex-start;
+      gap: 11px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--surface);
+      cursor: pointer;
+    }
+
+    .check-row input {
+      width: 21px;
+      height: 21px;
+      flex: 0 0 auto;
+      margin: 1px 0 0;
+      accent-color: var(--green-2);
+    }
+
+    .check-row:has(input:checked) span {
+      color: var(--muted);
+      text-decoration: line-through;
+    }
+
+    .timeline {
+      position: relative;
+      display: grid;
+      gap: 10px;
+    }
+
+    .step {
+      position: relative;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+      box-shadow: 0 2px 9px rgba(23,63,53,.04);
+      transition: opacity .2s, border-color .2s, box-shadow .2s;
+    }
+
+    .step[open] {
+      border-color: #9db7ad;
+      box-shadow: var(--shadow);
+    }
+
+    .step.is-current {
+      border: 2px solid var(--green-2);
+    }
+
+    .step.is-current::before {
+      position: absolute;
+      top: 16px;
+      right: 42px;
+      padding: 3px 7px;
+      border-radius: 999px;
+      background: var(--green);
+      color: #fff;
+      content: "NOW";
+      font-size: .66rem;
+      font-weight: 900;
+      letter-spacing: .07em;
+    }
+
+    .step.is-past { opacity: .58; }
+
+    .step > summary {
+      display: grid;
+      grid-template-columns: 70px 1fr;
+      gap: 11px;
+      min-height: 72px;
+      align-items: center;
+      padding: 13px 42px 13px 13px;
+      cursor: pointer;
+      list-style: none;
+    }
+
+    .step > summary::-webkit-details-marker { display: none; }
+
+    .step > summary::after {
+      position: absolute;
+      top: 26px;
+      right: 16px;
+      color: var(--muted);
+      content: "⌄";
+      font-size: 1.15rem;
+      transition: transform .2s;
+    }
+
+    .step[open] > summary::after { transform: rotate(180deg); }
+
+    .time {
+      color: var(--green-2);
+      font-size: .82rem;
+      font-weight: 850;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .step-title {
+      display: block;
+      padding-right: 6px;
+      font-weight: 820;
+      line-height: 1.25;
+    }
+
+    .kind {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: .75rem;
+      font-weight: 650;
+    }
+
+    .step-body {
+      padding: 0 15px 16px;
+      border-top: 1px solid var(--line);
+    }
+
+    .step-body p { margin: 13px 0; }
+    .step-body ul, .step-body ol { padding-left: 22px; }
+    .step-body li + li { margin-top: 8px; }
+    .step-body strong { color: var(--green); }
+
+    .warning {
+      padding: 11px 12px;
+      border-left: 4px solid var(--gold);
+      border-radius: 8px;
+      background: #fff5dd;
+      color: #604310;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 13px;
+    }
+
+    .action {
+      display: inline-flex;
+      min-height: 44px;
+      align-items: center;
+      justify-content: center;
+      padding: 9px 12px;
+      border: 1px solid #adc2ba;
+      border-radius: 11px;
+      background: var(--surface-2);
+      color: var(--green);
+      cursor: pointer;
+      font-weight: 780;
+      text-decoration: none;
+    }
+
+    .action.primary {
+      border-color: var(--green);
+      background: var(--green);
+      color: #fff;
+    }
+
+    .resource-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 9px;
+    }
+
+    .resource {
+      display: flex;
+      min-height: 78px;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--surface);
+      color: var(--ink);
+      cursor: pointer;
+      font-weight: 780;
+      text-align: left;
+      text-decoration: none;
+    }
+
+    .resource small {
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      z-index: 20;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      display: flex;
+      width: min(calc(100% - 20px), 660px);
+      margin: 0 auto calc(10px + env(safe-area-inset-bottom));
+      padding: 7px;
+      border: 1px solid rgba(255,255,255,.5);
+      border-radius: 17px;
+      background: rgba(23,63,53,.94);
+      box-shadow: 0 8px 30px rgba(0,0,0,.25);
+      backdrop-filter: blur(14px);
+    }
+
+    .bottom-nav a {
+      display: flex;
+      min-height: 48px;
+      flex: 1;
+      align-items: center;
+      justify-content: center;
+      border-radius: 11px;
+      color: rgba(255,255,255,.82);
+      font-size: .78rem;
+      font-weight: 760;
+      text-decoration: none;
+    }
+
+    .bottom-nav a:active { background: rgba(255,255,255,.12); }
+
+    dialog {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      max-width: none;
+      height: 100dvh;
+      max-height: none;
+      margin: 0;
+      padding: 0;
+      border: 0;
+      background: #111;
+      color: #fff;
+    }
+
+    dialog::backdrop { background: rgba(0,0,0,.9); }
+
+    .viewer-bar {
+      position: fixed;
+      z-index: 2;
+      top: 0;
+      right: 0;
+      left: 0;
+      display: flex;
+      min-height: 62px;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: calc(8px + env(safe-area-inset-top)) 12px 8px;
+      background: rgba(0,0,0,.72);
+    }
+
+    #viewerTitle {
+      overflow: hidden;
+      font-weight: 760;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .close-viewer {
+      min-width: 44px;
+      min-height: 42px;
+      border: 1px solid #666;
+      border-radius: 11px;
+      background: #222;
+      color: #fff;
+      cursor: pointer;
+      font-weight: 800;
+    }
+
+    .image-pan {
+      display: grid;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      place-items: center;
+      overscroll-behavior: contain;
+    }
+
+    #viewerImage {
+      display: block;
+      width: auto;
+      min-width: 100%;
+      max-width: none;
+      height: auto;
+      min-height: 40%;
+      object-fit: contain;
+    }
+
+    .footer-note {
+      margin: 22px 4px 0;
+      color: var(--muted);
+      font-size: .78rem;
+      text-align: center;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #101613;
+        --surface: #18201d;
+        --surface-2: #202c27;
+        --ink: #f0f3ef;
+        --muted: #a2afa9;
+        --line: #33413b;
+        --green: #22594a;
+        --green-2: #8bc9b1;
+        --gold: #e0a648;
+        --shadow: 0 9px 28px rgba(0,0,0,.28);
+      }
+
+      .step-body strong, .action { color: #a8dbc7; }
+      .warning { background: #3c3018; color: #f2d393; }
+      .action.primary { color: #fff; }
+    }
+
+    @media (min-width: 600px) {
+      .app { padding-right: 20px; padding-left: 20px; }
+      .resource-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header id="top">
+      <p class="eyebrow">Japan · Day plan</p>
+      <h1>Togakushi Tuesday</h1>
+      <p class="date">20 October 2026 · Shinjuku → Togakushi</p>
+    </header>
+
+    <article class="now-card" aria-live="polite">
+      <div class="now-top">
+        <span class="status-label"><span class="status-dot"></span><span id="statusLabel">UP NEXT</span></span>
+        <time id="clock">Japan time</time>
+      </div>
+      <h2 id="nowTitle">Shinjuku → Ueno</h2>
+      <p id="nowTime">05:41–06:08</p>
+      <p id="nowSummary">Yamanote Line from platform 15 toward Ueno and Ikebukuro.</p>
+      <div id="countdown" class="countdown">Trip begins 20 October</div><br>
+      <a id="nowButton" class="now-button" href="#shinjuku-ueno">View next step ↓</a>
+    </article>
+
+    <details class="preview">
+      <summary>Preview the itinerary at another time</summary>
+      <div class="preview-controls">
+        <select id="previewTime" aria-label="Preview itinerary time">
+          <option value="">Live Japan time</option>
+          <option value="2026-10-20T05:30:00+09:00">05:30 · Before departure</option>
+          <option value="2026-10-20T05:50:00+09:00">05:50 · Yamanote Line</option>
+          <option value="2026-10-20T06:40:00+09:00">06:40 · Shinkansen</option>
+          <option value="2026-10-20T07:40:00+09:00">07:40 · Nagano lockers</option>
+          <option value="2026-10-20T08:10:00+09:00">08:10 · Togakushi bus</option>
+          <option value="2026-10-20T09:45:00+09:00">09:45 · Kagami Pond walk</option>
+          <option value="2026-10-20T11:45:00+09:00">11:45 · Lunch</option>
+          <option value="2026-10-20T14:00:00+09:00">14:00 · Return bus soon</option>
+          <option value="2026-10-20T16:00:00+09:00">16:00 · Day complete</option>
+        </select>
+        <button id="liveButton" class="small-button" type="button">Live</button>
+      </div>
+    </details>
+
+    <section id="prepare">
+      <div class="section-heading">
+        <h2>Before leaving</h2>
+        <span class="section-note">Saved on this device</span>
+      </div>
+      <div class="prep-list">
+        <label class="check-row"><input data-check="coins" type="checkbox"><span>Pack at least <strong>10 × ¥100</strong> and <strong>2 × ¥500</strong> coins.</span></label>
+        <label class="check-row"><input data-check="locker" type="checkbox"><span>Reserve a Nagano Station 2F locker at <a href="https://multiecube.com/en" target="_blank" rel="noopener">Multi eCube</a>.</span></label>
+        <label class="check-row"><input data-check="bear-spray" type="checkbox"><span>Pack bear spray and make sure everyone knows how to use it.</span></label>
+        <label class="check-row"><input data-check="kumamap-home" type="checkbox"><span>Check current bear sightings in Kumamap before leaving.</span></label>
+        <label class="check-row"><input data-check="kumamap-trail" type="checkbox"><span>Check Kumamap again before beginning the trail.</span></label>
+      </div>
+    </section>
+
+    <section id="timeline-section">
+      <div class="section-heading">
+        <h2>Timeline</h2>
+        <span class="section-note">Tap a step for details</span>
+      </div>
+      <div class="timeline" id="timeline">
+        <details class="step" id="shinjuku-ueno"
+          data-start="2026-10-20T05:41:00+09:00"
+          data-end="2026-10-20T06:08:00+09:00"
+          data-title="Shinjuku → Ueno"
+          data-summary="Yamanote Line from platform 15 toward Ueno and Ikebukuro."
+          data-hard="true">
+          <summary>
+            <span class="time">05:41<br>06:08</span>
+            <span><span class="step-title">Shinjuku → Ueno</span><span class="kind">Train · hard departure</span></span>
+          </summary>
+          <div class="step-body">
+            <p>Take the <strong>Yamanote Line from platform 15</strong>, toward Ueno/Ikebukuro.</p>
+            <ul>
+              <li>Board toward the <strong>middle/front</strong> of the train.</li>
+              <li>Earlier option: depart <strong>05:34</strong> and arrive 05:59.</li>
+            </ul>
+            <div class="actions">
+              <a class="action" href="https://japantravel.navitime.com/en/area/jp/route/result/?start=00004254&amp;goalCode=02301-2000103&amp;start_name=Shinjuku&amp;goal_name=Togakushi%20Shrine%20Okusha%20(Main%20Shrine)&amp;cid=&amp;from=route_result_search_box&amp;date_time=2026-10-20T18%3A34&amp;search_time_mode=first-operation" target="_blank" rel="noopener">Route reference ↗</a>
+            </div>
+          </div>
+        </details>
+
+        <details class="step" id="ueno-nagano"
+          data-start="2026-10-20T06:22:00+09:00"
+          data-end="2026-10-20T07:36:00+09:00"
+          data-title="Ueno → Nagano"
+          data-summary="Kagayaki Shinkansen toward Tsuruga. Get off at Nagano."
+          data-hard="true">
+          <summary>
+            <span class="time">06:22<br>07:36</span>
+            <span><span class="step-title">Ueno → Nagano</span><span class="kind">Shinkansen · hard departure</span></span>
+          </summary>
+          <div class="step-body">
+            <p>Take the <strong>Kagayaki Shinkansen toward Tsuruga</strong> and get off at Nagano.</p>
+          </div>
+        </details>
+
+        <details class="step" id="nagano-lockers"
+          data-start="2026-10-20T07:36:00+09:00"
+          data-end="2026-10-20T07:50:00+09:00"
+          data-title="Store the backpack"
+          data-summary="Try East Exit 2F first. The bus leaves from stop 7 at 07:50."
+          data-hard="false">
+          <summary>
+            <span class="time">07:36<br>07:50</span>
+            <span><span class="step-title">Store the backpack</span><span class="kind">Nagano Station · 14 minutes</span></span>
+          </summary>
+          <div class="step-body">
+            <p class="warning"><strong>Move quickly:</strong> only 14 minutes are planned before the bus departure.</p>
+            <ol>
+              <li><strong>East Exit, 2F</strong> — near Shinkansen gates and NewDays.</li>
+              <li><strong>Zenkoji Exit, 1F</strong> — near the taxi area outside.</li>
+              <li><strong>Nagano Electric Railway, B1F</strong> — by its underground gates.</li>
+            </ol>
+            <div class="actions">
+              <button class="action image-link" type="button" data-image="../assets/2026-10-20_TUE/nagano station 2F.png" data-label="Nagano Station 2F map">2F station map</button>
+              <button class="action image-link" type="button" data-image="../assets/2026-10-20_TUE/nagano station 2F lockers.png" data-label="Nagano Station 2F lockers">2F lockers</button>
+              <button class="action image-link" type="button" data-image="../assets/2026-10-20_TUE/nagano station 1F.png" data-label="Nagano Station 1F map">1F station map</button>
+              <button class="action image-link" type="button" data-image="../assets/2026-10-20_TUE/nagano station 1F lockers.png" data-label="Nagano Station 1F lockers">1F lockers</button>
+            </div>
+          </div>
+        </details>
+
+        <details class="step" id="nagano-togakushi"
+          data-start="2026-10-20T07:50:00+09:00"
+          data-end="2026-10-20T08:49:00+09:00"
+          data-title="Nagano → Togakushi Okusha"
+          data-summary="Zenkoji Exit, left across the street, Alpico bus stop 7. Get off at stop 12."
+          data-hard="true">
+          <summary>
+            <span class="time">07:50<br>08:49</span>
+            <span><span class="step-title">Nagano → Togakushi Okusha</span><span class="kind">Bus · stop 7 · hard departure</span></span>
+          </summary>
+          <div class="step-body">
+            <p>Leave via <strong>Zenkoji Exit</strong>, turn left, cross the street, and walk to <strong>Alpico bus stop 7</strong>.</p>
+            <p>Take the Togakushi bus and leave at <strong>Togakushi Okusha, stop 12</strong>.</p>
+            <ul>
+              <li>No reservation is required if seats are available.</li>
+              <li>Pay with contactless <strong>VISA</strong> or cash.</li>
+              <li><strong>Suica and other IC cards are not accepted.</strong></li>
+            </ul>
+            <div class="actions">
+              <button class="action primary image-link" type="button" data-image="../assets/2026-10-20_TUE/nagano to togakushi alpico timetable.png" data-label="Nagano to Togakushi timetable">Open timetable</button>
+              <a class="action" href="https://visit-nagano.alpico.co.jp/timetable/nagano-togakushi-green" target="_blank" rel="noopener">Official timetable ↗</a>
+            </div>
+          </div>
+        </details>
+
+        <details class="step" id="okusha"
+          data-start="2026-10-20T08:49:00+09:00"
+          data-end="2026-10-20T09:35:00+09:00"
+          data-title="Walk to Okusha Shrine"
+          data-summary="Walk from Togakushi Okusha bus stop to the shrine. Allow about 45 minutes."
+          data-hard="false">
+          <summary>
+            <span class="time">08:49<br>09:35</span>
+            <span><span class="step-title">Walk to Okusha Shrine</span><span class="kind">Walking · approximately 45 min</span></span>
+          </summary>
+          <div class="step-body">
+            <p>Walk from the Togakushi Okusha bus stop to <strong>Okusha Shrine</strong>.</p>
+            <p class="warning">Before setting out, check trail conditions, daylight, weather, and bear reports.</p>
+            <div class="actions">
+              <button class="action primary image-link" type="button" data-image="../assets/2026-10-20_TUE/togakushi area map.png" data-label="Togakushi area map">Area map</button>
+            </div>
+          </div>
+        </details>
+
+        <details class="step" id="kagami"
+          data-start="2026-10-20T09:35:00+09:00"
+          data-end="2026-10-20T10:35:00+09:00"
+          data-title="Okusha → Kagami Pond"
+          data-summary="Walk about 30 minutes, then spend 30 minutes at Kagami Pond."
+          data-hard="false">
+          <summary>
+            <span class="time">09:35<br>10:35</span>
+            <span><span class="step-title">Okusha → Kagami Pond</span><span class="kind">30 min walk · 30 min visit</span></span>
+          </summary>
+          <div class="step-body">
+            <ul>
+              <li><strong>09:35–10:05:</strong> walk from Okusha to Kagami Pond.</li>
+              <li><strong>10:05–10:35:</strong> spend 30 minutes at the pond.</li>
+            </ul>
+            <div class="actions">
+              <button class="action primary image-link" type="button" data-image="../assets/2026-10-20_TUE/togakushi area map.png" data-label="Togakushi area map">Area map</button>
+              <a class="action" href="https://www.alltrails.com/trail/japan/nagano/togakushi-winter-trekking-route" target="_blank" rel="noopener">AllTrails route 1 ↗</a>
+              <a class="action" href="https://www.alltrails.com/trail/japan/nagano/togakushi-land-of-reverence-for-mountains-course" target="_blank" rel="noopener">AllTrails route 2 ↗</a>
+            </div>
+          </div>
+        </details>
+
+        <details class="step" id="chusha"
+          data-start="2026-10-20T10:35:00+09:00"
+          data-end="2026-10-20T11:30:00+09:00"
+          data-title="Kagami Pond → Chusha"
+          data-summary="Walk to Togakushi Chusha, allowing approximately 55 minutes."
+          data-hard="false">
+          <summary>
+            <span class="time">10:35<br>11:30</span>
+            <span><span class="step-title">Kagami Pond → Chusha</span><span class="kind">Walking · approximately 55 min</span></span>
+          </summary>
+          <div class="step-body">
+            <p>Walk from Kagami Pond to <strong>Togakushi Chusha</strong>.</p>
+            <div class="actions">
+              <button class="action primary image-link" type="button" data-image="../assets/2026-10-20_TUE/togakushi area map.png" data-label="Togakushi area map">Area map</button>
+            </div>
+          </div>
+        </details>
+
+        <details class="step" id="lunch"
+          data-start="2026-10-20T11:30:00+09:00"
+          data-end="2026-10-20T14:00:00+09:00"
+          data-title="Lunch at Uzuraya"
+          data-summary="Eat and take a relaxed break. Leave enough time to reach Chusha Daimon for the 14:08 bus."
+          data-hard="false">
+          <summary>
+            <span class="time">11:30<br>14:00</span>
+            <span><span class="step-title">Lunch at Uzuraya</span><span class="kind">Meal and relaxed break</span></span>
+          </summary>
+          <div class="step-body">
+            <p>Eat at <strong>Uzuraya</strong>. If its line is too long, use one of the alternatives.</p>
+            <p class="warning">The return bus leaves Chusha Daimon at <strong>14:08</strong>.</p>
+            <div class="actions">
+              <a class="action primary" href="https://maps.app.goo.gl/JwmZu6EXf9NtNQEZ9" target="_blank" rel="noopener">Uzuraya map ↗</a>
+              <a class="action" href="https://maps.app.goo.gl/b3c8ZST9tHqzJYir5" target="_blank" rel="noopener">Alternative 1 ↗</a>
+              <a class="action" href="https://maps.app.goo.gl/arMkZ9eZzbrD7tzu5" target="_blank" rel="noopener">Lamp Cafe ↗</a>
+            </div>
+          </div>
+        </details>
+
+        <details class="step" id="togakushi-nagano"
+          data-start="2026-10-20T14:08:00+09:00"
+          data-end="2026-10-20T15:05:00+09:00"
+          data-title="Togakushi → Nagano"
+          data-summary="Board at Chusha Daimon at 14:08 and ride back to Nagano Station."
+          data-hard="true">
+          <summary>
+            <span class="time">14:08<br>15:05</span>
+            <span><span class="step-title">Togakushi → Nagano</span><span class="kind">Bus · Chusha Daimon · hard departure</span></span>
+          </summary>
+          <div class="step-body">
+            <p>Board the Alpico bus at <strong>Chusha Daimon at 14:08</strong> and ride to Nagano Station.</p>
+            <div class="actions">
+              <button class="action primary image-link" type="button" data-image="../assets/2026-10-20_TUE/togakushi to nagano alpico timetable.png" data-label="Togakushi to Nagano timetable">Open timetable</button>
+              <a class="action" href="https://visit-nagano.alpico.co.jp/timetable/nagano-togakushi-green" target="_blank" rel="noopener">Official timetable ↗</a>
+            </div>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <section id="resources">
+      <div class="section-heading">
+        <h2>Quick references</h2>
+      </div>
+      <div class="resource-grid">
+        <button class="resource image-link" type="button" data-image="../assets/2026-10-20_TUE/togakushi area map.png" data-label="Togakushi area map">Togakushi map<small>Open image</small></button>
+        <button class="resource image-link" type="button" data-image="../assets/2026-10-20_TUE/nagano to togakushi alpico timetable.png" data-label="Nagano to Togakushi timetable">Outbound bus<small>Timetable</small></button>
+        <button class="resource image-link" type="button" data-image="../assets/2026-10-20_TUE/togakushi to nagano alpico timetable.png" data-label="Togakushi to Nagano timetable">Return bus<small>Timetable</small></button>
+        <button class="resource image-link" type="button" data-image="../assets/2026-10-20_TUE/nagano station 2F lockers.png" data-label="Nagano Station 2F lockers">2F lockers<small>Station map</small></button>
+        <button class="resource image-link" type="button" data-image="../assets/2026-10-20_TUE/nagano station 1F lockers.png" data-label="Nagano Station 1F lockers">1F lockers<small>Station map</small></button>
+        <a class="resource" href="https://www.highwaybus.com/gp/inbound/inbRsvSearch" target="_blank" rel="noopener">Bus tickets<small>Manage reservation ↗</small></a>
+        <a class="resource" href="https://visit-nagano.alpico.co.jp/timetable/togakushi-shuttlebus" target="_blank" rel="noopener">Local shuttle<small>Official timetable ↗</small></a>
+        <a class="resource" href="https://visit-nagano.alpico.co.jp/travelog/post/hiking-the-5-shrines-trail-in-togakushi/" target="_blank" rel="noopener">Five shrines<small>Area information ↗</small></a>
+      </div>
+    </section>
+
+    <p class="footer-note">Times use Japan Standard Time. Check live transport, weather, trail, and bear information before travel.</p>
+  </main>
+
+  <nav class="bottom-nav" aria-label="Page sections">
+    <a href="#top">Now</a>
+    <a href="#prepare">Prepare</a>
+    <a href="#timeline-section">Timeline</a>
+    <a href="#resources">Maps</a>
+  </nav>
+
+  <dialog id="imageViewer">
+    <div class="viewer-bar">
+      <span id="viewerTitle">Reference image</span>
+      <button class="close-viewer" id="closeViewer" type="button" aria-label="Close image">Close</button>
+    </div>
+    <div class="image-pan">
+      <img id="viewerImage" alt="">
+    </div>
+  </dialog>
+
+  <script>
+    (() => {
+      const storagePrefix = "togakushi-2026-10-20:";
+      const steps = [...document.querySelectorAll(".step")].map((element) => ({
+        element,
+        start: new Date(element.dataset.start),
+        end: new Date(element.dataset.end),
+        title: element.dataset.title,
+        summary: element.dataset.summary,
+        hard: element.dataset.hard === "true"
+      }));
+
+      const statusLabel = document.querySelector("#statusLabel");
+      const clock = document.querySelector("#clock");
+      const nowTitle = document.querySelector("#nowTitle");
+      const nowTime = document.querySelector("#nowTime");
+      const nowSummary = document.querySelector("#nowSummary");
+      const countdown = document.querySelector("#countdown");
+      const nowButton = document.querySelector("#nowButton");
+      const previewTime = document.querySelector("#previewTime");
+
+      const japanTime = new Intl.DateTimeFormat("en-GB", {
+        timeZone: "Asia/Tokyo",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false
+      });
+
+      const shortTime = new Intl.DateTimeFormat("en-GB", {
+        timeZone: "Asia/Tokyo",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false
+      });
+
+      function displayTime(step) {
+        return `${shortTime.format(step.start)}–${shortTime.format(step.end)}`;
+      }
+
+      function durationText(milliseconds) {
+        const totalMinutes = Math.max(0, Math.ceil(milliseconds / 60000));
+        const days = Math.floor(totalMinutes / 1440);
+        const hours = Math.floor((totalMinutes % 1440) / 60);
+        const minutes = totalMinutes % 60;
+        if (days) return `${days}d ${hours}h`;
+        if (hours) return `${hours}h ${minutes}m`;
+        return `${minutes} min`;
+      }
+
+      function currentTime() {
+        return previewTime.value ? new Date(previewTime.value) : new Date();
+      }
+
+      function render() {
+        const now = currentTime();
+        const first = steps[0];
+        const last = steps.at(-1);
+        const active = steps.find((step) => now >= step.start && now < step.end);
+        const next = steps.find((step) => step.start > now);
+        const selected = active || next;
+
+        clock.textContent = previewTime.value
+          ? `${japanTime.format(now)} · preview`
+          : `${japanTime.format(now)} JST`;
+
+        steps.forEach((step) => {
+          const isCurrent = step === active;
+          step.element.classList.toggle("is-current", isCurrent);
+          step.element.classList.toggle("is-past", now >= step.end);
+          if (isCurrent) step.element.open = true;
+        });
+
+        if (now < first.start) {
+          statusLabel.textContent = "UP NEXT";
+          nowTitle.textContent = first.title;
+          nowTime.textContent = displayTime(first);
+          nowSummary.textContent = first.summary;
+          countdown.textContent = `Starts in ${durationText(first.start - now)}`;
+          nowButton.textContent = "View first step ↓";
+          nowButton.href = `#${first.element.id}`;
+          return;
+        }
+
+        if (now >= last.end) {
+          statusLabel.textContent = "COMPLETE";
+          nowTitle.textContent = "Togakushi plan complete";
+          nowTime.textContent = "Arrived Nagano at 15:05";
+          nowSummary.textContent = "Collect the backpack and continue with the evening plan.";
+          countdown.textContent = "All scheduled steps finished";
+          nowButton.textContent = "Review timeline ↓";
+          nowButton.href = "#timeline-section";
+          return;
+        }
+
+        if (active) {
+          statusLabel.textContent = "NOW";
+          nowTitle.textContent = active.title;
+          nowTime.textContent = displayTime(active);
+          nowSummary.textContent = active.summary;
+          countdown.textContent = `${durationText(active.end - now)} remaining`;
+          nowButton.textContent = "Open current step ↓";
+          nowButton.href = `#${active.element.id}`;
+          return;
+        }
+
+        statusLabel.textContent = "UP NEXT";
+        nowTitle.textContent = selected.title;
+        nowTime.textContent = displayTime(selected);
+        nowSummary.textContent = selected.summary;
+        countdown.textContent = `${selected.hard ? "Departs" : "Starts"} in ${durationText(selected.start - now)}`;
+        nowButton.textContent = "View next step ↓";
+        nowButton.href = `#${selected.element.id}`;
+      }
+
+      document.querySelectorAll("[data-check]").forEach((checkbox) => {
+        const key = storagePrefix + checkbox.dataset.check;
+        try {
+          checkbox.checked = localStorage.getItem(key) === "true";
+          checkbox.addEventListener("change", () => localStorage.setItem(key, String(checkbox.checked)));
+        } catch (_) {
+          // The checklist still works for this session if local storage is unavailable.
+        }
+      });
+
+      previewTime.addEventListener("change", render);
+      document.querySelector("#liveButton").addEventListener("click", () => {
+        previewTime.value = "";
+        render();
+      });
+
+      const imageViewer = document.querySelector("#imageViewer");
+      const viewerImage = document.querySelector("#viewerImage");
+      const viewerTitle = document.querySelector("#viewerTitle");
+
+      document.querySelectorAll(".image-link").forEach((button) => {
+        button.addEventListener("click", () => {
+          viewerImage.src = button.dataset.image;
+          viewerImage.alt = button.dataset.label;
+          viewerTitle.textContent = button.dataset.label;
+          imageViewer.showModal();
+        });
+      });
+
+      document.querySelector("#closeViewer").addEventListener("click", () => imageViewer.close());
+      imageViewer.addEventListener("click", (event) => {
+        if (event.target === imageViewer) imageViewer.close();
+      });
+
+      render();
+      window.setInterval(render, 30000);
+    })();
+  </script>
+</body>
+</html>

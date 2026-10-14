@@ -1,0 +1,410 @@
+{
+  "schemaVersion": 1,
+  "id": "2026-10-20",
+  "date": "2026-10-20",
+  "timeZone": "Asia/Tokyo",
+  "utcOffset": "+09:00",
+  "eyebrow": "Japan · Day plan",
+  "title": "Togakushi Tuesday",
+  "subtitle": "20 October 2026 · Shinjuku → Togakushi",
+  "completion": {
+    "title": "Togakushi plan complete",
+    "time": "Arrived Nagano at 15:05",
+    "summary": "Collect the backpack and continue with the evening plan."
+  },
+  "previewTimes": [
+    { "time": "05:30", "label": "Before departure" },
+    { "time": "05:50", "label": "Yamanote Line" },
+    { "time": "06:40", "label": "Shinkansen" },
+    { "time": "07:40", "label": "Nagano lockers" },
+    { "time": "08:10", "label": "Togakushi bus" },
+    { "time": "09:45", "label": "Kagami Pond walk" },
+    { "time": "11:45", "label": "Lunch" },
+    { "time": "14:00", "label": "Return bus soon" },
+    { "time": "16:00", "label": "Day complete" }
+  ],
+  "preparation": [
+    {
+      "id": "coins",
+      "text": "Pack at least **10 × ¥100** and **2 × ¥500** coins."
+    },
+    {
+      "id": "locker",
+      "text": "Reserve a Nagano Station 2F locker.",
+      "link": {
+        "label": "Multi eCube",
+        "url": "https://multiecube.com/en"
+      }
+    },
+    {
+      "id": "bear-spray",
+      "text": "Pack bear spray and make sure everyone knows how to use it."
+    },
+    {
+      "id": "kumamap-home",
+      "text": "Check current bear sightings in Kumamap before leaving."
+    },
+    {
+      "id": "kumamap-trail",
+      "text": "Check Kumamap again before beginning the trail."
+    }
+  ],
+  "steps": [
+    {
+      "id": "shinjuku-ueno",
+      "type": "transit",
+      "start": "05:41",
+      "end": "06:08",
+      "title": "Shinjuku → Ueno",
+      "kind": "Train · hard departure",
+      "summary": "Yamanote Line from platform 15 toward Ueno and Ikebukuro.",
+      "hardDeadline": true,
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Take the **Yamanote Line from platform 15**, toward Ueno/Ikebukuro."
+        },
+        {
+          "type": "list",
+          "items": [
+            "Board toward the **middle/front** of the train.",
+            "Earlier option: depart **05:34** and arrive 05:59."
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": "link",
+          "label": "Route reference",
+          "url": "https://japantravel.navitime.com/en/area/jp/route/result/?start=00004254&goalCode=02301-2000103&start_name=Shinjuku&goal_name=Togakushi%20Shrine%20Okusha%20(Main%20Shrine)&cid=&from=route_result_search_box&date_time=2026-10-20T18%3A34&search_time_mode=first-operation"
+        }
+      ]
+    },
+    {
+      "id": "ueno-nagano",
+      "type": "transit",
+      "start": "06:22",
+      "end": "07:36",
+      "title": "Ueno → Nagano",
+      "kind": "Shinkansen · hard departure",
+      "summary": "Kagayaki Shinkansen toward Tsuruga. Get off at Nagano.",
+      "hardDeadline": true,
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Take the **Kagayaki Shinkansen toward Tsuruga** and get off at Nagano."
+        }
+      ],
+      "actions": []
+    },
+    {
+      "id": "nagano-lockers",
+      "type": "task",
+      "start": "07:36",
+      "end": "07:50",
+      "title": "Store the backpack",
+      "kind": "Nagano Station · 14 minutes",
+      "summary": "Try East Exit 2F first. The bus leaves from stop 7 at 07:50.",
+      "hardDeadline": false,
+      "blocks": [
+        {
+          "type": "warning",
+          "text": "**Move quickly:** only 14 minutes are planned before the bus departure."
+        },
+        {
+          "type": "list",
+          "ordered": true,
+          "items": [
+            "**East Exit, 2F** — near Shinkansen gates and NewDays.",
+            "**Zenkoji Exit, 1F** — near the taxi area outside.",
+            "**Nagano Electric Railway, B1F** — by its underground gates."
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": "image",
+          "label": "2F station map",
+          "imageLabel": "Nagano Station 2F map",
+          "src": "../assets/2026-10-20_TUE/nagano station 2F.png"
+        },
+        {
+          "type": "image",
+          "label": "2F lockers",
+          "imageLabel": "Nagano Station 2F lockers",
+          "src": "../assets/2026-10-20_TUE/nagano station 2F lockers.png"
+        },
+        {
+          "type": "image",
+          "label": "1F station map",
+          "imageLabel": "Nagano Station 1F map",
+          "src": "../assets/2026-10-20_TUE/nagano station 1F.png"
+        },
+        {
+          "type": "image",
+          "label": "1F lockers",
+          "imageLabel": "Nagano Station 1F lockers",
+          "src": "../assets/2026-10-20_TUE/nagano station 1F lockers.png"
+        }
+      ]
+    },
+    {
+      "id": "nagano-togakushi",
+      "type": "transit",
+      "start": "07:50",
+      "end": "08:49",
+      "title": "Nagano → Togakushi Okusha",
+      "kind": "Bus · stop 7 · hard departure",
+      "summary": "Zenkoji Exit, left across the street, Alpico bus stop 7. Get off at stop 12.",
+      "hardDeadline": true,
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Leave via **Zenkoji Exit**, turn left, cross the street, and walk to **Alpico bus stop 7**."
+        },
+        {
+          "type": "paragraph",
+          "text": "Take the Togakushi bus and leave at **Togakushi Okusha, stop 12**."
+        },
+        {
+          "type": "list",
+          "items": [
+            "No reservation is required if seats are available.",
+            "Pay with contactless **VISA** or cash.",
+            "**Suica and other IC cards are not accepted.**"
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": "image",
+          "label": "Open timetable",
+          "imageLabel": "Nagano to Togakushi timetable",
+          "src": "../assets/2026-10-20_TUE/nagano to togakushi alpico timetable.png",
+          "primary": true
+        },
+        {
+          "type": "link",
+          "label": "Official timetable",
+          "url": "https://visit-nagano.alpico.co.jp/timetable/nagano-togakushi-green"
+        }
+      ]
+    },
+    {
+      "id": "okusha",
+      "type": "walk",
+      "start": "08:49",
+      "end": "09:35",
+      "title": "Walk to Okusha Shrine",
+      "kind": "Walking · approximately 45 min",
+      "summary": "Walk from Togakushi Okusha bus stop to the shrine. Allow about 45 minutes.",
+      "hardDeadline": false,
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Walk from the Togakushi Okusha bus stop to **Okusha Shrine**."
+        },
+        {
+          "type": "warning",
+          "text": "Before setting out, check trail conditions, daylight, weather, and bear reports."
+        }
+      ],
+      "actions": [
+        {
+          "type": "image",
+          "label": "Area map",
+          "imageLabel": "Togakushi area map",
+          "src": "../assets/2026-10-20_TUE/togakushi area map.png",
+          "primary": true
+        }
+      ]
+    },
+    {
+      "id": "kagami",
+      "type": "walk",
+      "start": "09:35",
+      "end": "10:35",
+      "title": "Okusha → Kagami Pond",
+      "kind": "30 min walk · 30 min visit",
+      "summary": "Walk about 30 minutes, then spend 30 minutes at Kagami Pond.",
+      "hardDeadline": false,
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            "**09:35–10:05:** walk from Okusha to Kagami Pond.",
+            "**10:05–10:35:** spend 30 minutes at the pond."
+          ]
+        }
+      ],
+      "actions": [
+        {
+          "type": "image",
+          "label": "Area map",
+          "imageLabel": "Togakushi area map",
+          "src": "../assets/2026-10-20_TUE/togakushi area map.png",
+          "primary": true
+        },
+        {
+          "type": "link",
+          "label": "AllTrails route 1",
+          "url": "https://www.alltrails.com/trail/japan/nagano/togakushi-winter-trekking-route"
+        },
+        {
+          "type": "link",
+          "label": "AllTrails route 2",
+          "url": "https://www.alltrails.com/trail/japan/nagano/togakushi-land-of-reverence-for-mountains-course"
+        }
+      ]
+    },
+    {
+      "id": "chusha",
+      "type": "walk",
+      "start": "10:35",
+      "end": "11:30",
+      "title": "Kagami Pond → Chusha",
+      "kind": "Walking · approximately 55 min",
+      "summary": "Walk to Togakushi Chusha, allowing approximately 55 minutes.",
+      "hardDeadline": false,
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Walk from Kagami Pond to **Togakushi Chusha**."
+        }
+      ],
+      "actions": [
+        {
+          "type": "image",
+          "label": "Area map",
+          "imageLabel": "Togakushi area map",
+          "src": "../assets/2026-10-20_TUE/togakushi area map.png",
+          "primary": true
+        }
+      ]
+    },
+    {
+      "id": "lunch",
+      "type": "meal",
+      "start": "11:30",
+      "end": "14:00",
+      "title": "Lunch at Uzuraya",
+      "kind": "Meal and relaxed break",
+      "summary": "Eat and take a relaxed break. Leave enough time to reach Chusha Daimon for the 14:08 bus.",
+      "hardDeadline": false,
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Eat at **Uzuraya**. If its line is too long, use one of the alternatives."
+        },
+        {
+          "type": "warning",
+          "text": "The return bus leaves Chusha Daimon at **14:08**."
+        }
+      ],
+      "actions": [
+        {
+          "type": "link",
+          "label": "Uzuraya map",
+          "url": "https://maps.app.goo.gl/JwmZu6EXf9NtNQEZ9",
+          "primary": true
+        },
+        {
+          "type": "link",
+          "label": "Alternative 1",
+          "url": "https://maps.app.goo.gl/b3c8ZST9tHqzJYir5"
+        },
+        {
+          "type": "link",
+          "label": "Lamp Cafe",
+          "url": "https://maps.app.goo.gl/arMkZ9eZzbrD7tzu5"
+        }
+      ]
+    },
+    {
+      "id": "togakushi-nagano",
+      "type": "transit",
+      "start": "14:08",
+      "end": "15:05",
+      "title": "Togakushi → Nagano",
+      "kind": "Bus · Chusha Daimon · hard departure",
+      "summary": "Board at Chusha Daimon at 14:08 and ride back to Nagano Station.",
+      "hardDeadline": true,
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text": "Board the Alpico bus at **Chusha Daimon at 14:08** and ride to Nagano Station."
+        }
+      ],
+      "actions": [
+        {
+          "type": "image",
+          "label": "Open timetable",
+          "imageLabel": "Togakushi to Nagano timetable",
+          "src": "../assets/2026-10-20_TUE/togakushi to nagano alpico timetable.png",
+          "primary": true
+        },
+        {
+          "type": "link",
+          "label": "Official timetable",
+          "url": "https://visit-nagano.alpico.co.jp/timetable/nagano-togakushi-green"
+        }
+      ]
+    }
+  ],
+  "resources": [
+    {
+      "type": "image",
+      "label": "Togakushi map",
+      "description": "Open image",
+      "imageLabel": "Togakushi area map",
+      "src": "../assets/2026-10-20_TUE/togakushi area map.png"
+    },
+    {
+      "type": "image",
+      "label": "Outbound bus",
+      "description": "Timetable",
+      "imageLabel": "Nagano to Togakushi timetable",
+      "src": "../assets/2026-10-20_TUE/nagano to togakushi alpico timetable.png"
+    },
+    {
+      "type": "image",
+      "label": "Return bus",
+      "description": "Timetable",
+      "imageLabel": "Togakushi to Nagano timetable",
+      "src": "../assets/2026-10-20_TUE/togakushi to nagano alpico timetable.png"
+    },
+    {
+      "type": "image",
+      "label": "2F lockers",
+      "description": "Station map",
+      "imageLabel": "Nagano Station 2F lockers",
+      "src": "../assets/2026-10-20_TUE/nagano station 2F lockers.png"
+    },
+    {
+      "type": "image",
+      "label": "1F lockers",
+      "description": "Station map",
+      "imageLabel": "Nagano Station 1F lockers",
+      "src": "../assets/2026-10-20_TUE/nagano station 1F lockers.png"
+    },
+    {
+      "type": "link",
+      "label": "Bus tickets",
+      "description": "Manage reservation",
+      "url": "https://www.highwaybus.com/gp/inbound/inbRsvSearch"
+    },
+    {
+      "type": "link",
+      "label": "Local shuttle",
+      "description": "Official timetable",
+      "url": "https://visit-nagano.alpico.co.jp/timetable/togakushi-shuttlebus"
+    },
+    {
+      "type": "link",
+      "label": "Five shrines",
+      "description": "Area information",
+      "url": "https://visit-nagano.alpico.co.jp/travelog/post/hiking-the-5-shrines-trail-in-togakushi/"
+    }
+  ],
+  "footer": "Times use Japan Standard Time. Check live transport, weather, trail, and bear information before travel."
+}

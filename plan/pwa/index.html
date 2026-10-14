@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#173f35">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Japan Plan">
+  <meta name="description" content="Offline mobile itinerary for Japan">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="styles.css">
+  <title>Japan Day Plan</title>
+</head>
+<body>
+  <main class="app" id="app" aria-busy="true">
+    <div class="loading">
+      <span class="loading-mark" aria-hidden="true">鳥</span>
+      <p>Loading day plan…</p>
+    </div>
+  </main>
+
+  <nav class="bottom-nav" id="bottomNav" aria-label="Page sections" hidden>
+    <a href="#top">Now</a>
+    <a href="#prepare">Prepare</a>
+    <a href="#timeline-section">Timeline</a>
+    <a href="#resources">Maps</a>
+  </nav>
+
+  <dialog id="imageViewer">
+    <div class="viewer-bar">
+      <span id="viewerTitle">Reference image</span>
+      <button class="close-viewer" id="closeViewer" type="button" aria-label="Close image">Close</button>
+    </div>
+    <div class="image-pan">
+      <img id="viewerImage" alt="">
+    </div>
+  </dialog>
+
+  <template id="errorTemplate">
+    <section class="error-state">
+      <p class="eyebrow">Japan · Day plan</p>
+      <h1>Plan unavailable</h1>
+      <p id="errorMessage">This itinerary could not be loaded.</p>
+      <button class="action primary" type="button" onclick="location.reload()">Try again</button>
+    </section>
+  </template>
+
+  <script src="app.js" defer></script>
+</body>
+</html>

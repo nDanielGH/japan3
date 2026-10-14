@@ -1,8 +1,0 @@
-[global]
-disable = ["MD013"]
-
-[MD057]
-severity = "error"
-
-[MD051]
-severity = "error"

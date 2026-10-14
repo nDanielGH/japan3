@@ -1,0 +1,18 @@
+---
+description: Preserve the shared design and data model for mobile trip itineraries
+globs: plan/pwa/**
+alwaysApply: false
+---
+
+# Itinerary PWA
+
+- New trip days must be added as `plan/pwa/days/YYYY-MM-DD.json`.
+- Do not copy `index.html`, add day-specific HTML, or add day-specific CSS.
+- Use only the step, block, action, and resource types documented in `plan/pwa/README.md`.
+- Keep itinerary content in day JSON; keep appearance and behavior in the shared renderer.
+- Treat `2026-10-20` as the visual reference for shared UI changes.
+- Run `python plan/pwa/scripts/validate_days.py` after changing day data.
+- Preview changed days at a 390 × 844 viewport and test the current-step state.
+- When changing shared PWA files, verify Tuesday still matches its established look and behavior.
+- Increment `CACHE_VERSION` in `service-worker.js` whenever cached shared files change.
+- Do not introduce arbitrary HTML fields into day data; extend the schema and shared renderer deliberately when a new content type is genuinely needed.
