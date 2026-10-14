@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Japan day plan icon">
-  <rect width="512" height="512" rx="112" fill="#173f35"/>
-  <circle cx="354" cy="158" r="82" fill="#f1c36d"/>
-  <path fill="#fffdf7" d="M94 368c54-68 105-111 154-129 43-15 81-14 116 3 24 12 42 29 54 49-51-15-97-12-139 8-39 19-74 52-104 99H94v-30Z"/>
-  <path fill="#8bc9b1" d="M94 368c61-37 117-51 168-42 38 7 74 25 108 55l-16 31H94v-44Z"/>
-  <path fill="#fffdf7" d="M132 120h62v157h-62z"/>
-  <path fill="#fffdf7" d="m116 120 47-53 47 53z"/>
-  <rect x="118" y="274" width="90" height="20" rx="10" fill="#fffdf7"/>
-</svg>
