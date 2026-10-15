@@ -1007,7 +1007,7 @@
       let imageZoom = 1;
 
       const setImageZoom = (nextZoom) => {
-        imageZoom = Math.min(3, Math.max(.5, nextZoom));
+        imageZoom = Math.min(3, Math.max(.25, nextZoom));
         viewerImage.style.width = `${imageZoom * 100}%`;
         zoomReset.textContent = `${Math.round(imageZoom * 100)}%`;
       };

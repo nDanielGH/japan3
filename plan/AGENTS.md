@@ -17,9 +17,10 @@ look, feel, and behavior of `plan/week 1/2026-10-20_TUE.html`:
   a previous image's scroll position cannot hide the new image's edges.
 - Do not use `min-width` or `min-height` constraints that prevent zooming out.
   Provide image-specific zoom controls with a fit-width default, zoom-out,
-  reset, and zoom-in behavior. Apply zoom by changing the image width so the
-  scroll container includes the complete zoomed image; do not rely on browser
-  page zoom or transforms that leave overflow dimensions incorrect.
+  reset, and zoom-in behavior. The zoom-out control must reach at least 25%.
+  Apply zoom by changing the image width so the scroll container includes the
+  complete zoomed image; do not rely on browser page zoom or transforms that
+  leave overflow dimensions incorrect.
 - Reset zoom to 100% whenever a new image opens, and keep all zoom controls
   keyboard- and touch-accessible.
 - Keep external web links as normal external links that open in a new tab.
