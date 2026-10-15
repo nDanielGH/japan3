@@ -8,9 +8,20 @@ look, feel, and behavior of `plan/week 1/2026-10-20_TUE.html`:
 - Keep the interactive timeline, live/preview controls, checklist persistence,
   expandable itinerary steps, and image viewer modal.
 - Make every image in the viewer fully accessible on mobile. The image
-  viewport must scroll in both directions, align oversized images from the
-  top-left rather than centering them, and reserve space below the fixed
-  viewer bar so the top edge cannot be hidden or cropped.
+  viewport must be a normal block scroll container with horizontal and
+  vertical overflow. Keep oversized images in normal top-left flow; never
+  center them with grid or flex alignment, because that can put their edges
+  into inaccessible negative overflow. Reserve space below the fixed viewer
+  bar so the top edge cannot be hidden or cropped.
+- Reset both `scrollTop` and `scrollLeft` to zero whenever an image opens, so
+  a previous image's scroll position cannot hide the new image's edges.
+- Do not use `min-width` or `min-height` constraints that prevent zooming out.
+  Provide image-specific zoom controls with a fit-width default, zoom-out,
+  reset, and zoom-in behavior. Apply zoom by changing the image width so the
+  scroll container includes the complete zoomed image; do not rely on browser
+  page zoom or transforms that leave overflow dimensions incorrect.
+- Reset zoom to 100% whenever a new image opens, and keep all zoom controls
+  keyboard- and touch-accessible.
 - Keep external web links as normal external links that open in a new tab.
 - Keep CSS and JavaScript self-contained in the HTML unless explicitly
   requested otherwise.
