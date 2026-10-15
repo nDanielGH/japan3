@@ -7,6 +7,10 @@ look, feel, and behavior of `plan/week 1/2026-10-20_TUE.html`:
   timeline, checklist controls, bottom navigation, and responsive behavior.
 - Keep the interactive timeline, live/preview controls, checklist persistence,
   expandable itinerary steps, and image viewer modal.
+- Make every image in the viewer fully accessible on mobile. The image
+  viewport must scroll in both directions, align oversized images from the
+  top-left rather than centering them, and reserve space below the fixed
+  viewer bar so the top edge cannot be hidden or cropped.
 - Keep external web links as normal external links that open in a new tab.
 - Keep CSS and JavaScript self-contained in the HTML unless explicitly
   requested otherwise.
