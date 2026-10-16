@@ -157,6 +157,36 @@
             </div>
           </div>
         </details>
+
+        <details class="step" id="explore-and-eat"
+          data-start="2026-10-21T08:45:00+09:00" data-end="2026-10-21T16:30:00+09:00"
+          data-title="Explore and eat" data-summary="Explore the Central Alps and eat during the day." data-hard="false">
+          <summary><span class="time">08:45<br>16:30</span><span><span class="step-title">Explore and eat</span><span class="kind">Central Alps · flexible</span></span></summary>
+          <div class="step-body">
+            <p>Explore the Central Alps and make time to <strong>eat</strong>.</p>
+          </div>
+        </details>
+
+        <details class="step" id="last-ropeway-down"
+          data-start="2026-10-21T16:30:00+09:00" data-end="2026-10-21T17:15:00+09:00"
+          data-title="Catch the last ropeway down" data-summary="The last ropeway down leaves at 17:00 and must not be missed." data-hard="true">
+          <summary><span class="time">16:30<br>17:15</span><span><span class="step-title">Catch the last ropeway down</span><span class="kind">Ropeway · hard deadline 17:00</span></span></summary>
+          <div class="step-body">
+            <p><strong>Do not miss the last ropeway down at 17:00.</strong> Allow time to board and ride down, which takes 15 minutes.</p>
+            <div class="actions">
+              <a class="action primary" href="https://www.chuo-alps.com/en/timetable/" target="_blank" rel="noopener">Ropeway timetable ↗</a>
+            </div>
+          </div>
+        </details>
+
+        <details class="step" id="drive-to-matsumoto"
+          data-start="2026-10-21T17:15:00+09:00" data-end="2026-10-21T19:00:00+09:00"
+          data-title="Drive back to Matsumoto" data-summary="Drive back to Matsumoto after returning by ropeway. Arrival time is estimated." data-hard="false">
+          <summary><span class="time">17:15<br>19:00</span><span><span class="step-title">Drive back to Matsumoto</span><span class="kind">Car · estimated arrival 19:00</span></span></summary>
+          <div class="step-body">
+            <p>Drive back to <strong>Matsumoto</strong> after returning to Suganodai. The arrival time is an estimate.</p>
+          </div>
+        </details>
       </div>
     </section>
 
@@ -210,10 +240,10 @@
         }
         if (active) {
           statusLabel.textContent = "NOW"; nowTitle.textContent = active.title; nowTime.textContent = timeRange(active);
-          nowSummary.textContent = active.summary; countdown.textContent = "Departure stage"; nowButton.textContent = "Open current step ↓"; nowButton.href = `#${active.element.id}`; return;
+          nowSummary.textContent = active.summary; countdown.textContent = "Scheduled stage"; nowButton.textContent = "Open current step ↓"; nowButton.href = `#${active.element.id}`; return;
         }
-        statusLabel.textContent = "COMPLETE"; nowTitle.textContent = "Suganodai departure stage complete"; nowTime.textContent = timeRange(steps[steps.length - 1]);
-        nowSummary.textContent = "Continue with the rest of the day’s plan."; countdown.textContent = "Stage finished";
+        statusLabel.textContent = "COMPLETE"; nowTitle.textContent = "21 October plan complete"; nowTime.textContent = timeRange(steps[steps.length - 1]);
+        nowSummary.textContent = "The scheduled Suganodai and Matsumoto stages are finished."; countdown.textContent = "Day plan finished";
         nowButton.textContent = "Review timeline ↓"; nowButton.href = "#timeline-section";
       }
       document.querySelectorAll("[data-check]").forEach((checkbox) => {
