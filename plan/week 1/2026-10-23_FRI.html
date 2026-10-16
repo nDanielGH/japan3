@@ -326,7 +326,7 @@
       top: 26px;
       right: 16px;
       color: var(--muted);
-      content: "âŒ„";
+      content: "⌄";
       font-size: 1.15rem;
       transition: transform .2s;
     }
@@ -582,7 +582,7 @@
 <body>
   <main class="app">
     <header id="top">
-      <p class="eyebrow">Japan Â· Day plan</p>
+      <p class="eyebrow">Japan · Day plan</p>
       <h1>Nakasendō Friday</h1>
       <p class="date">23 October 2026 · Matsumoto → Nakasendō</p>
     </header>
@@ -596,7 +596,7 @@
       <p id="nowTime">07:04–08:21</p>
       <p id="nowSummary">Shinano Limited Express 2 to Nakatsugawa.</p>
       <div id="countdown" class="countdown">Trip begins 23 October</div><br>
-      <a id="nowButton" class="now-button" href="#matsumoto-nakatsugawa">View next step â†“</a>
+      <a id="nowButton" class="now-button" href="#matsumoto-nakatsugawa">View next step ↓</a>
     </article>
 
     <details class="preview">
@@ -669,7 +669,7 @@
     <div class="viewer-bar">
       <span id="viewerTitle">Reference image</span>
       <div class="viewer-tools" aria-label="Image zoom controls">
-        <button class="viewer-tool" id="zoomOut" type="button" aria-label="Zoom out">âˆ’</button>
+        <button class="viewer-tool" id="zoomOut" type="button" aria-label="Zoom out">−</button>
         <button class="viewer-tool" id="zoomReset" type="button" aria-label="Reset zoom">100%</button>
         <button class="viewer-tool" id="zoomIn" type="button" aria-label="Zoom in">+</button>
         <button class="close-viewer" id="closeViewer" type="button" aria-label="Close image">Close</button>
@@ -716,7 +716,7 @@
       });
 
       function displayTime(step) {
-        return `${shortTime.format(step.start)}â€“${shortTime.format(step.end)}`;
+        return `${shortTime.format(step.start)}–${shortTime.format(step.end)}`;
       }
 
       function durationText(milliseconds) {
@@ -742,7 +742,7 @@
         const selected = active || next;
 
         clock.textContent = previewTime.value
-          ? `${japanTime.format(now)} Â· preview`
+          ? `${japanTime.format(now)} · preview`
           : `${japanTime.format(now)} JST`;
 
         steps.forEach((step) => {
@@ -758,7 +758,7 @@
           nowTime.textContent = displayTime(first);
           nowSummary.textContent = first.summary;
           countdown.textContent = `Starts in ${durationText(first.start - now)}`;
-          nowButton.textContent = "View first step â†“";
+          nowButton.textContent = "View first step ↓";
           nowButton.href = `#${first.element.id}`;
           return;
         }
@@ -769,7 +769,7 @@
           nowTime.textContent = "Arrived at Hotel Route-Inn";
           nowSummary.textContent = "The scheduled Nakasendō, Matsumoto, and Shinano-Omachi stages are finished.";
           countdown.textContent = "All scheduled steps finished";
-          nowButton.textContent = "Review timeline â†“";
+          nowButton.textContent = "Review timeline ↓";
           nowButton.href = "#timeline-section";
           return;
         }
@@ -780,7 +780,7 @@
           nowTime.textContent = displayTime(active);
           nowSummary.textContent = active.summary;
           countdown.textContent = `${durationText(active.end - now)} remaining`;
-          nowButton.textContent = "Open current step â†“";
+          nowButton.textContent = "Open current step ↓";
           nowButton.href = `#${active.element.id}`;
           return;
         }
@@ -790,7 +790,7 @@
         nowTime.textContent = displayTime(selected);
         nowSummary.textContent = selected.summary;
         countdown.textContent = `${selected.hard ? "Departs" : "Starts"} in ${durationText(selected.start - now)}`;
-        nowButton.textContent = "View next step â†“";
+        nowButton.textContent = "View next step ↓";
         nowButton.href = `#${selected.element.id}`;
       }
 
