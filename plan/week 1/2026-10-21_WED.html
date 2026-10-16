@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#173f35">
+  <title>Suganodai Wednesday · 21 Oct 2026</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #f4f2ea; --surface: #fffdf7; --surface-2: #e9eee8;
+      --ink: #17201d; --muted: #60706a; --line: #d4dbd5;
+      --green: #173f35; --green-2: #2d6657; --gold: #b97922;
+      --shadow: 0 8px 28px rgba(23,63,53,.10); --radius: 18px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 12px; }
+    body {
+      margin: 0; background: var(--bg); color: var(--ink);
+      font: 16px/1.45 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+    button, select, input { font: inherit; }
+    button, a { touch-action: manipulation; }
+    a { color: var(--green-2); text-underline-offset: 3px; }
+    .app { width: min(100%, 680px); margin: 0 auto; padding: 0 14px calc(92px + env(safe-area-inset-bottom)); }
+    header { padding: calc(22px + env(safe-area-inset-top)) 4px 14px; }
+    .eyebrow { margin: 0 0 4px; color: var(--muted); font-size: .78rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+    h1 { margin: 0; font-size: clamp(1.75rem, 7vw, 2.35rem); line-height: 1.08; letter-spacing: -.035em; }
+    .date { margin: 8px 0 0; color: var(--muted); font-weight: 650; }
+    .now-card {
+      position: relative; overflow: hidden; margin-bottom: 14px; padding: 18px;
+      border-radius: 22px; background: var(--green); color: #fff; box-shadow: var(--shadow);
+    }
+    .now-card::after { position: absolute; right: -35px; bottom: -65px; width: 150px; height: 150px; border: 26px solid rgba(255,255,255,.07); border-radius: 50%; content: ""; }
+    .now-top, .section-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+    .status-label { display: inline-flex; align-items: center; gap: 7px; font-size: .78rem; font-weight: 850; letter-spacing: .08em; text-transform: uppercase; }
+    .status-dot { width: 9px; height: 9px; border-radius: 50%; background: #83e0b5; box-shadow: 0 0 0 5px rgba(131,224,181,.14); }
+    #clock { color: rgba(255,255,255,.82); font-size: .88rem; font-variant-numeric: tabular-nums; }
+    #nowTitle { margin: 18px 0 4px; max-width: 86%; font-size: 1.55rem; line-height: 1.15; letter-spacing: -.02em; }
+    #nowTime { margin: 0; color: #bde6d5; font-weight: 750; }
+    #nowSummary { position: relative; z-index: 1; margin: 12px 0 16px; max-width: 92%; color: rgba(255,255,255,.86); }
+    .countdown { display: inline-block; margin-bottom: 15px; padding: 6px 10px; border: 1px solid rgba(255,255,255,.2); border-radius: 999px; background: rgba(255,255,255,.1); font-size: .82rem; font-weight: 750; font-variant-numeric: tabular-nums; }
+    .now-button { position: relative; z-index: 1; display: inline-flex; min-height: 44px; align-items: center; padding: 10px 15px; border-radius: 12px; background: #fff; color: var(--green); font-weight: 800; text-decoration: none; }
+    .preview { margin: 0 0 18px; padding: 0 2px; }
+    .preview summary { width: fit-content; color: var(--muted); cursor: pointer; font-size: .85rem; font-weight: 700; }
+    .preview-controls { display: flex; gap: 8px; margin-top: 10px; }
+    select, .small-button { min-height: 42px; border: 1px solid var(--line); border-radius: 11px; background: var(--surface); color: var(--ink); }
+    select { flex: 1; min-width: 0; padding: 8px 34px 8px 10px; }
+    .small-button { padding: 8px 13px; cursor: pointer; font-weight: 750; }
+    section { margin-top: 22px; }
+    .section-heading { margin: 0 2px 10px; }
+    h2 { margin: 0; font-size: 1.15rem; letter-spacing: -.015em; }
+    .section-note { color: var(--muted); font-size: .78rem; }
+    .prep-list { display: grid; gap: 8px; }
+    .check-row { display: flex; min-height: 52px; align-items: flex-start; gap: 11px; padding: 12px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); cursor: pointer; }
+    .check-row input { width: 21px; height: 21px; flex: 0 0 auto; margin: 1px 0 0; accent-color: var(--green-2); }
+    .check-row:has(input:checked) span { color: var(--muted); text-decoration: line-through; }
+    .timeline { position: relative; display: grid; gap: 10px; }
+    .step { position: relative; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); box-shadow: 0 2px 9px rgba(23,63,53,.04); transition: opacity .2s, border-color .2s, box-shadow .2s; }
+    .step[open] { border-color: #9db7ad; box-shadow: var(--shadow); }
+    .step.is-current { border: 2px solid var(--green-2); }
+    .step.is-current::before { position: absolute; top: 16px; right: 42px; padding: 3px 7px; border-radius: 999px; background: var(--green); color: #fff; content: "NOW"; font-size: .66rem; font-weight: 900; letter-spacing: .07em; }
+    .step.is-past { opacity: .58; }
+    .step > summary { display: grid; grid-template-columns: 70px 1fr; gap: 11px; min-height: 72px; align-items: center; padding: 13px 42px 13px 13px; cursor: pointer; list-style: none; }
+    .step > summary::-webkit-details-marker { display: none; }
+    .step > summary::after { position: absolute; top: 26px; right: 16px; color: var(--muted); content: "⌄"; font-size: 1.15rem; transition: transform .2s; }
+    .step[open] > summary::after { transform: rotate(180deg); }
+    .time { color: var(--green-2); font-size: .82rem; font-weight: 850; font-variant-numeric: tabular-nums; }
+    .step-title { display: block; padding-right: 6px; font-weight: 820; line-height: 1.25; }
+    .kind { display: block; margin-top: 3px; color: var(--muted); font-size: .75rem; font-weight: 650; }
+    .step-body { padding: 0 15px 16px; border-top: 1px solid var(--line); }
+    .step-body p { margin: 13px 0; }
+    .step-body strong { color: var(--green); }
+    .actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 13px; }
+    .action { display: inline-flex; min-height: 44px; align-items: center; justify-content: center; padding: 9px 12px; border: 1px solid #adc2ba; border-radius: 11px; background: var(--surface-2); color: var(--green); cursor: pointer; font-weight: 780; text-decoration: none; }
+    .action.primary { border-color: var(--green); background: var(--green); color: #fff; }
+    .resource-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
+    .resource { display: flex; min-height: 78px; flex-direction: column; justify-content: space-between; padding: 12px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); color: var(--ink); font-weight: 780; text-align: left; text-decoration: none; }
+    .resource small { color: var(--muted); font-weight: 600; }
+    .bottom-nav { position: fixed; z-index: 20; right: 0; bottom: 0; left: 0; display: flex; width: min(calc(100% - 20px), 660px); margin: 0 auto calc(10px + env(safe-area-inset-bottom)); padding: 7px; border: 1px solid rgba(255,255,255,.5); border-radius: 17px; background: rgba(23,63,53,.94); box-shadow: 0 8px 30px rgba(0,0,0,.25); backdrop-filter: blur(14px); }
+    .bottom-nav a { display: flex; min-height: 48px; flex: 1; align-items: center; justify-content: center; border-radius: 11px; color: rgba(255,255,255,.82); font-size: .78rem; font-weight: 760; text-decoration: none; }
+    .bottom-nav a:active { background: rgba(255,255,255,.12); }
+    .footer-note { margin: 22px 4px 0; color: var(--muted); font-size: .78rem; text-align: center; }
+    @media (prefers-color-scheme: dark) {
+      :root { --bg: #101613; --surface: #18201d; --surface-2: #202c27; --ink: #f0f3ef; --muted: #a2afa9; --line: #33413b; --green: #22594a; --green-2: #8bc9b1; --gold: #e0a648; --shadow: 0 9px 28px rgba(0,0,0,.28); }
+      .step-body strong, .action { color: #a8dbc7; }
+      .action.primary { color: #fff; }
+    }
+    @media (min-width: 600px) { .app { padding-right: 20px; padding-left: 20px; } .resource-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header id="top">
+      <p class="eyebrow">Japan · Day plan</p>
+      <h1>Suganodai Wednesday</h1>
+      <p class="date">21 October 2026 · Drive to Suganodai</p>
+    </header>
+
+    <article class="now-card" aria-live="polite">
+      <div class="now-top">
+        <span class="status-label"><span class="status-dot"></span><span id="statusLabel">UP NEXT</span></span>
+        <time id="clock">Japan time</time>
+      </div>
+      <h2 id="nowTitle">Leave for Suganodai</h2>
+      <p id="nowTime">07:00</p>
+      <p id="nowSummary">Leave by car for the Suganodai Bus Center parking lot.</p>
+      <div id="countdown" class="countdown">Trip begins 21 October</div><br>
+      <a id="nowButton" class="now-button" href="#suganodai-departure">View first step ↓</a>
+    </article>
+
+    <details class="preview">
+      <summary>Preview the itinerary at another time</summary>
+      <div class="preview-controls">
+        <select id="previewTime" aria-label="Preview itinerary time">
+          <option value="">Live Japan time</option>
+          <option value="2026-10-21T06:30:00+09:00">06:30 · Before departure</option>
+          <option value="2026-10-21T07:00:00+09:00">07:00 · Departure</option>
+          <option value="2026-10-21T12:00:00+09:00">12:00 · En route</option>
+        </select>
+        <button id="liveButton" class="small-button" type="button">Live</button>
+      </div>
+    </details>
+
+    <section id="prepare">
+      <div class="section-heading"><h2>Before leaving</h2><span class="section-note">Saved on this device</span></div>
+      <div class="prep-list">
+        <label class="check-row"><input data-check="car-ready" type="checkbox"><span>Confirm the car is ready and fuelled for the drive.</span></label>
+        <label class="check-row"><input data-check="parking-route" type="checkbox"><span>Open the <a href="https://www.google.com/maps/search/?api=1&query=Suganodai+Bus+Center+Parking+Lot%2C+Komagane%2C+Nagano%2C+Japan" target="_blank" rel="noopener">Suganodai Bus Center parking lot</a> location.</span></label>
+      </div>
+    </section>
+
+    <section id="timeline-section">
+      <div class="section-heading"><h2>Timeline</h2><span class="section-note">Tap a step for details</span></div>
+      <div class="timeline" id="timeline">
+        <details class="step" id="suganodai-departure"
+          data-start="2026-10-21T07:00:00+09:00" data-end="2026-10-21T23:59:00+09:00"
+          data-title="Leave for Suganodai" data-summary="Leave by car for the Suganodai Bus Center parking lot." data-hard="true">
+          <summary><span class="time">07:00</span><span><span class="step-title">Leave for Suganodai Bus Center parking lot</span><span class="kind">Car · departure</span></span></summary>
+          <div class="step-body">
+            <p>Leave by <strong>car at 07:00</strong> for the <strong>Suganodai Bus Center parking lot</strong>.</p>
+            <div class="actions">
+              <a class="action primary" href="https://www.google.com/maps/search/?api=1&query=Suganodai+Bus+Center+Parking+Lot%2C+Komagane%2C+Nagano%2C+Japan" target="_blank" rel="noopener">Open location ↗</a>
+            </div>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <section id="resources">
+      <div class="section-heading"><h2>Quick references</h2></div>
+      <div class="resource-grid">
+        <a class="resource" href="https://www.google.com/maps/search/?api=1&query=Suganodai+Bus+Center+Parking+Lot%2C+Komagane%2C+Nagano%2C+Japan" target="_blank" rel="noopener">Suganodai parking<small>Open in Maps ↗</small></a>
+      </div>
+    </section>
+    <p class="footer-note">Times use Japan Standard Time. Check live road and weather conditions before travel.</p>
+  </main>
+
+  <nav class="bottom-nav" aria-label="Page sections">
+    <a href="#top">Now</a><a href="#prepare">Prepare</a><a href="#timeline-section">Timeline</a><a href="#resources">Maps</a>
+  </nav>
+
+  <script>
+    (() => {
+      const storagePrefix = "suganodai-2026-10-21:";
+      const steps = [...document.querySelectorAll(".step")].map((element) => ({
+        element, start: new Date(element.dataset.start), end: new Date(element.dataset.end),
+        title: element.dataset.title, summary: element.dataset.summary, hard: element.dataset.hard === "true"
+      }));
+      const statusLabel = document.querySelector("#statusLabel");
+      const clock = document.querySelector("#clock");
+      const nowTitle = document.querySelector("#nowTitle");
+      const nowTime = document.querySelector("#nowTime");
+      const nowSummary = document.querySelector("#nowSummary");
+      const countdown = document.querySelector("#countdown");
+      const nowButton = document.querySelector("#nowButton");
+      const previewTime = document.querySelector("#previewTime");
+      const japanTime = new Intl.DateTimeFormat("en-GB", { timeZone: "Asia/Tokyo", hour: "2-digit", minute: "2-digit", hour12: false });
+      const durationText = (milliseconds) => {
+        const minutes = Math.max(0, Math.ceil(milliseconds / 60000));
+        const days = Math.floor(minutes / 1440), hours = Math.floor((minutes % 1440) / 60), rest = minutes % 60;
+        if (days) return `${days}d ${hours}h`;
+        if (hours) return `${hours}h ${rest}m`;
+        return `${rest} min`;
+      };
+      const currentTime = () => previewTime.value ? new Date(previewTime.value) : new Date();
+      function render() {
+        const now = currentTime(), first = steps[0], active = steps.find((step) => now >= step.start && now < step.end);
+        clock.textContent = `${japanTime.format(now)} JST${previewTime.value ? " · preview" : ""}`;
+        steps.forEach((step) => { step.element.classList.toggle("is-current", step === active); step.element.classList.toggle("is-past", now >= step.end); if (step === active) step.element.open = true; });
+        if (now < first.start) {
+          statusLabel.textContent = "UP NEXT"; nowTitle.textContent = first.title; nowTime.textContent = "07:00";
+          nowSummary.textContent = first.summary; countdown.textContent = `Starts in ${durationText(first.start - now)}`;
+          nowButton.textContent = "View first step ↓"; nowButton.href = `#${first.element.id}`; return;
+        }
+        if (active) {
+          statusLabel.textContent = "NOW"; nowTitle.textContent = active.title; nowTime.textContent = "07:00";
+          nowSummary.textContent = active.summary; countdown.textContent = "Departure stage"; nowButton.textContent = "Open current step ↓"; nowButton.href = `#${active.element.id}`; return;
+        }
+        statusLabel.textContent = "COMPLETE"; nowTitle.textContent = "Suganodai departure stage complete"; nowTime.textContent = "07:00";
+        nowSummary.textContent = "Continue with the rest of the day’s plan."; countdown.textContent = "Stage finished";
+        nowButton.textContent = "Review timeline ↓"; nowButton.href = "#timeline-section";
+      }
+      document.querySelectorAll("[data-check]").forEach((checkbox) => {
+        const key = storagePrefix + checkbox.dataset.check;
+        try { checkbox.checked = localStorage.getItem(key) === "true"; checkbox.addEventListener("change", () => localStorage.setItem(key, String(checkbox.checked))); } catch (_) {}
+      });
+      previewTime.addEventListener("change", render);
+      document.querySelector("#liveButton").addEventListener("click", () => { previewTime.value = ""; render(); });
+      render();
+      window.setInterval(render, 30000);
+    })();
+  </script>
+</body>
+</html>
