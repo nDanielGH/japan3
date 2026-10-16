@@ -104,7 +104,7 @@
         <time id="clock">Japan time</time>
       </div>
       <h2 id="nowTitle">Leave for Suganodai</h2>
-      <p id="nowTime">07:00</p>
+      <p id="nowTime">07:00–08:30</p>
       <p id="nowSummary">Leave by car for the Suganodai Bus Center parking lot.</p>
       <div id="countdown" class="countdown">Trip begins 21 October</div><br>
       <a id="nowButton" class="now-button" href="#suganodai-departure">View first step ↓</a>
@@ -127,7 +127,7 @@
       <div class="section-heading"><h2>Before leaving</h2><span class="section-note">Saved on this device</span></div>
       <div class="prep-list">
         <label class="check-row"><input data-check="car-ready" type="checkbox"><span>Confirm the car is ready and fuelled for the drive.</span></label>
-        <label class="check-row"><input data-check="parking-route" type="checkbox"><span>Open the <a href="https://www.google.com/maps/search/?api=1&query=Suganodai+Bus+Center+Parking+Lot%2C+Komagane%2C+Nagano%2C+Japan" target="_blank" rel="noopener">Suganodai Bus Center parking lot</a> location.</span></label>
+        <label class="check-row"><input data-check="breakfast" type="checkbox"><span>Eat breakfast at the hotel.</span></label>
       </div>
     </section>
 
@@ -135,13 +135,25 @@
       <div class="section-heading"><h2>Timeline</h2><span class="section-note">Tap a step for details</span></div>
       <div class="timeline" id="timeline">
         <details class="step" id="suganodai-departure"
-          data-start="2026-10-21T07:00:00+09:00" data-end="2026-10-21T23:59:00+09:00"
-          data-title="Leave for Suganodai" data-summary="Leave by car for the Suganodai Bus Center parking lot." data-hard="true">
-          <summary><span class="time">07:00</span><span><span class="step-title">Leave for Suganodai Bus Center parking lot</span><span class="kind">Car · departure</span></span></summary>
+          data-start="2026-10-21T07:00:00+09:00" data-end="2026-10-21T08:30:00+09:00"
+          data-title="Drive to Suganodai" data-summary="Leave by car for the Suganodai Bus Center parking lot and arrive at 08:30." data-hard="true">
+          <summary><span class="time">07:00<br>08:30</span><span><span class="step-title">Drive to Suganodai Bus Center parking lot</span><span class="kind">Car · arrival 08:30</span></span></summary>
           <div class="step-body">
-            <p>Leave by <strong>car at 07:00</strong> for the <strong>Suganodai Bus Center parking lot</strong>.</p>
+            <p>Leave by <strong>car at 07:00</strong> for the <strong>Suganodai Bus Center parking lot</strong> and arrive at <strong>08:30</strong>.</p>
             <div class="actions">
               <a class="action primary" href="https://www.google.com/maps/search/?api=1&query=Suganodai+Bus+Center+Parking+Lot%2C+Komagane%2C+Nagano%2C+Japan" target="_blank" rel="noopener">Open location ↗</a>
+            </div>
+          </div>
+        </details>
+
+        <details class="step" id="komagatake-ropeway"
+          data-start="2026-10-21T08:30:00+09:00" data-end="2026-10-21T08:45:00+09:00"
+          data-title="Take the Komagatake Ropeway" data-summary="The ropeway leaves every 30 minutes and takes 15 minutes." data-hard="false">
+          <summary><span class="time">08:30<br>08:45</span><span><span class="step-title">Take the Komagatake Ropeway</span><span class="kind">Ropeway · 15 minutes</span></span></summary>
+          <div class="step-body">
+            <p>Take the <strong>Komagatake Ropeway</strong>. It leaves every <strong>30 minutes</strong> and takes <strong>15 minutes</strong>.</p>
+            <div class="actions">
+              <a class="action primary" href="https://www.chuo-alps.com/en/timetable/" target="_blank" rel="noopener">Ropeway timetable ↗</a>
             </div>
           </div>
         </details>
@@ -152,6 +164,7 @@
       <div class="section-heading"><h2>Quick references</h2></div>
       <div class="resource-grid">
         <a class="resource" href="https://www.google.com/maps/search/?api=1&query=Suganodai+Bus+Center+Parking+Lot%2C+Komagane%2C+Nagano%2C+Japan" target="_blank" rel="noopener">Suganodai parking<small>Open in Maps ↗</small></a>
+        <a class="resource" href="https://www.chuo-alps.com/en/timetable/" target="_blank" rel="noopener">Komagatake Ropeway<small>Timetable ↗</small></a>
       </div>
     </section>
     <p class="footer-note">Times use Japan Standard Time. Check live road and weather conditions before travel.</p>
@@ -177,6 +190,7 @@
       const nowButton = document.querySelector("#nowButton");
       const previewTime = document.querySelector("#previewTime");
       const japanTime = new Intl.DateTimeFormat("en-GB", { timeZone: "Asia/Tokyo", hour: "2-digit", minute: "2-digit", hour12: false });
+      const timeRange = (step) => `${japanTime.format(step.start)}–${japanTime.format(step.end)}`;
       const durationText = (milliseconds) => {
         const minutes = Math.max(0, Math.ceil(milliseconds / 60000));
         const days = Math.floor(minutes / 1440), hours = Math.floor((minutes % 1440) / 60), rest = minutes % 60;
@@ -190,15 +204,15 @@
         clock.textContent = `${japanTime.format(now)} JST${previewTime.value ? " · preview" : ""}`;
         steps.forEach((step) => { step.element.classList.toggle("is-current", step === active); step.element.classList.toggle("is-past", now >= step.end); if (step === active) step.element.open = true; });
         if (now < first.start) {
-          statusLabel.textContent = "UP NEXT"; nowTitle.textContent = first.title; nowTime.textContent = "07:00";
+          statusLabel.textContent = "UP NEXT"; nowTitle.textContent = first.title; nowTime.textContent = timeRange(first);
           nowSummary.textContent = first.summary; countdown.textContent = `Starts in ${durationText(first.start - now)}`;
           nowButton.textContent = "View first step ↓"; nowButton.href = `#${first.element.id}`; return;
         }
         if (active) {
-          statusLabel.textContent = "NOW"; nowTitle.textContent = active.title; nowTime.textContent = "07:00";
+          statusLabel.textContent = "NOW"; nowTitle.textContent = active.title; nowTime.textContent = timeRange(active);
           nowSummary.textContent = active.summary; countdown.textContent = "Departure stage"; nowButton.textContent = "Open current step ↓"; nowButton.href = `#${active.element.id}`; return;
         }
-        statusLabel.textContent = "COMPLETE"; nowTitle.textContent = "Suganodai departure stage complete"; nowTime.textContent = "07:00";
+        statusLabel.textContent = "COMPLETE"; nowTitle.textContent = "Suganodai departure stage complete"; nowTime.textContent = timeRange(steps[steps.length - 1]);
         nowSummary.textContent = "Continue with the rest of the day’s plan."; countdown.textContent = "Stage finished";
         nowButton.textContent = "Review timeline ↓"; nowButton.href = "#timeline-section";
       }

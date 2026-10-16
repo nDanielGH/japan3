@@ -1,6 +1,6 @@
 # Day-plan HTML generation
 
-When creating an HTML version of a day plan under `plan/`, preserve the
+For HTML versions of day plans under `plan/`, preserve the
 look, feel, and behavior of `plan/week 1/2026-10-20_TUE.html`:
 
 - Use the same mobile-first layout, color palette, typography, cards,
@@ -26,3 +26,4 @@ look, feel, and behavior of `plan/week 1/2026-10-20_TUE.html`:
 - Keep external web links as normal external links that open in a new tab.
 - Keep CSS and JavaScript self-contained in the HTML unless explicitly
   requested otherwise.
+- Commit and push after every change.
