@@ -108,11 +108,12 @@
       <div class="preview-controls">
         <select id="previewTime" aria-label="Preview itinerary time">
           <option value="">Live Japan time</option>
-          <option value="2026-10-22T06:30:00+09:00">06:30 · Before outbound bus</option>
+          <option value="2026-10-22T06:15:00+09:00">06:15 · Before train</option>
+          <option value="2026-10-22T06:45:00+09:00">06:45 · Train to Shin-Shimashima</option>
           <option value="2026-10-22T07:30:00+09:00">07:30 · Outbound bus</option>
           <option value="2026-10-22T12:00:00+09:00">12:00 · Kamikochi</option>
           <option value="2026-10-22T15:30:00+09:00">15:30 · Return bus</option>
-          <option value="2026-10-22T17:30:00+09:00">17:30 · Back at Shin-Shimashima</option>
+          <option value="2026-10-22T17:30:00+09:00">17:30 · Train to Matsumoto</option>
         </select>
         <button id="liveButton" class="small-button" type="button">Live</button>
       </div>
@@ -130,9 +131,9 @@
       <div class="section-heading"><h2>Timeline</h2><span class="section-note">Tap a step for details</span></div>
       <div class="timeline" id="timeline">
         <details class="step" id="shin-shimashima"
-          data-start="" data-end="" data-title="Go to Shin-Shimashima Station" data-summary="Departure time and transport are still to be decided." data-hard="false">
-          <summary><span class="time">TBD</span><span><span class="step-title">Go to Shin-Shimashima Station</span><span class="kind">Transport and timing TBD</span></span></summary>
-          <div class="step-body"><p>Go to <strong>Shin-Shimashima Station</strong>. The departure time and transport details are still to be decided.</p></div>
+          data-start="2026-10-22T06:31:00+09:00" data-end="2026-10-22T07:01:00+09:00" data-title="Matsumoto → Shin-Shimashima Station" data-summary="Take the Alpico Kotsu train to Shin-Shimashima Station." data-hard="true">
+          <summary><span class="time">06:31<br>07:01</span><span><span class="step-title">Matsumoto → Shin-Shimashima Station</span><span class="kind">Alpico Kotsu train · hard departure</span></span></summary>
+          <div class="step-body"><p>Take the <strong>Alpico Kotsu train</strong> to <strong>Shin-Shimashima Station</strong>.</p><ul><li>The train leaves at <strong>06:31</strong> and arrives at <strong>07:01</strong>.</li></ul></div>
         </details>
 
         <details class="step" id="outbound-bus"
@@ -141,6 +142,7 @@
           <summary><span class="time">07:10<br>08:05</span><span><span class="step-title">Shin-Shimashima → Taisho Pond</span><span class="kind">Alpico bus #2 · hard departure</span></span></summary>
           <div class="step-body">
             <p>Take <strong>Alpico bus #2</strong> from Shin-Shimashima Station to <strong>Taisho Pond</strong>.</p>
+            <p class="warning"><strong>Make the connection:</strong> the train arrives at <strong>07:01</strong>, leaving 9 minutes before this bus departs.</p>
             <ul><li>The bus leaves at <strong>07:10</strong> and arrives at <strong>08:05</strong>.</li><li>Prepare the ticket to show to the bus driver before boarding.</li></ul>
             <div class="actions"><a class="action primary" href="https://visit-nagano.alpico.co.jp/timetable/kamikochi-matsumoto" target="_blank" rel="noopener">Alpico timetable ↗</a></div>
           </div>
@@ -158,6 +160,7 @@
           <summary><span class="time">15:15<br>17:13</span><span><span class="step-title">Taisho Pond → Shin-Shimashima</span><span class="kind">Return bus · hard departure</span></span></summary>
           <div class="step-body">
             <p>Take the return bus from the boarding spot near <strong>Taisho Pond</strong>.</p>
+            <p class="warning"><strong>Make the connection:</strong> the bus arrives at <strong>17:13</strong>, leaving 9 minutes before the train departs.</p>
             <ul><li>The bus leaves at <strong>15:15</strong> and arrives at Shin-Shimashima Station at <strong>17:13</strong>.</li></ul>
             <div class="actions">
               <a class="action primary" href="https://maps.google.co.jp/maps?q=36.2461,137.6353&z=18" target="_blank" rel="noopener">Boarding spot ↗</a>
@@ -167,9 +170,9 @@
         </details>
 
         <details class="step" id="shin-shimashima-matsumoto"
-          data-start="" data-end="" data-title="Shin-Shimashima Station → Matsumoto" data-summary="Return to Matsumoto. Departure time and transport are still to be decided." data-hard="false">
-          <summary><span class="time">TBD</span><span><span class="step-title">Shin-Shimashima Station → Matsumoto</span><span class="kind">Transport and timing TBD</span></span></summary>
-          <div class="step-body"><p>Return from <strong>Shin-Shimashima Station</strong> to <strong>Matsumoto</strong>. The departure time and transport details are still to be decided.</p></div>
+          data-start="2026-10-22T17:22:00+09:00" data-end="2026-10-22T17:51:00+09:00" data-title="Shin-Shimashima Station → Matsumoto" data-summary="Take the Alpico Kotsu train back to Matsumoto." data-hard="true">
+          <summary><span class="time">17:22<br>17:51</span><span><span class="step-title">Shin-Shimashima Station → Matsumoto</span><span class="kind">Alpico Kotsu train · hard departure</span></span></summary>
+          <div class="step-body"><p>Take the <strong>Alpico Kotsu train</strong> from <strong>Shin-Shimashima Station</strong> to <strong>Matsumoto</strong>.</p><ul><li>The train leaves at <strong>17:22</strong> and arrives at <strong>17:51</strong>.</li></ul></div>
         </details>
       </div>
     </section>
@@ -223,7 +226,7 @@
           if (isCurrent) step.element.open = true;
         });
         if (now < first.start) {
-          statusLabel.textContent = "UP NEXT"; nowTitle.textContent = first.title; nowTime.textContent = "07:10–08:05";
+          statusLabel.textContent = "UP NEXT"; nowTitle.textContent = first.title; nowTime.textContent = `${japanTime.format(first.start)}–${japanTime.format(first.end)}`;
           nowSummary.textContent = first.summary; countdown.textContent = `Starts in ${durationText(first.start - now)}`;
           nowButton.textContent = "View next step ↓"; nowButton.href = `#${first.element.id}`; return;
         }
@@ -233,8 +236,8 @@
           nowButton.textContent = "Open current step ↓"; nowButton.href = `#${active.element.id}`; return;
         }
         if (now >= last.end) {
-          statusLabel.textContent = "COMPLETE"; nowTitle.textContent = "22 October plan complete"; nowTime.textContent = "Arrived at Shin-Shimashima at 17:13";
-          nowSummary.textContent = "The scheduled Kamikochi bus stages are finished."; countdown.textContent = "Day plan finished";
+          statusLabel.textContent = "COMPLETE"; nowTitle.textContent = "22 October plan complete"; nowTime.textContent = "Arrived at Matsumoto at 17:51";
+          nowSummary.textContent = "The scheduled Kamikochi bus and train stages are finished."; countdown.textContent = "Day plan finished";
           nowButton.textContent = "Review timeline ↓"; nowButton.href = "#timeline-section"; return;
         }
         statusLabel.textContent = "UP NEXT"; nowTitle.textContent = selected.title; nowTime.textContent = selected === next ? `${japanTime.format(selected.start)}–${japanTime.format(selected.end)}` : "TBD";
