@@ -72,6 +72,13 @@
     .step-body { padding: 0 15px 16px; border-top: 1px solid var(--line); }
     .step-body p { margin: 13px 0; }
     .step-body strong { color: var(--green); }
+    .warning {
+      padding: 11px 12px;
+      border-left: 4px solid var(--gold);
+      border-radius: 8px;
+      background: #fff5dd;
+      color: #604310;
+    }
     .actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 13px; }
     .action { display: inline-flex; min-height: 44px; align-items: center; justify-content: center; padding: 9px 12px; border: 1px solid #adc2ba; border-radius: 11px; background: var(--surface-2); color: var(--green); cursor: pointer; font-weight: 780; text-decoration: none; }
     .action.primary { border-color: var(--green); background: var(--green); color: #fff; }
@@ -85,6 +92,7 @@
     @media (prefers-color-scheme: dark) {
       :root { --bg: #101613; --surface: #18201d; --surface-2: #202c27; --ink: #f0f3ef; --muted: #a2afa9; --line: #33413b; --green: #22594a; --green-2: #8bc9b1; --gold: #e0a648; --shadow: 0 9px 28px rgba(0,0,0,.28); }
       .step-body strong, .action { color: #a8dbc7; }
+      .warning { background: #3c3018; color: #f2d393; }
       .action.primary { color: #fff; }
     }
     @media (min-width: 600px) { .app { padding-right: 20px; padding-left: 20px; } .resource-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
@@ -152,6 +160,9 @@
           <summary><span class="time">08:45<br>09:35</span><span><span class="step-title">Bus to and take the Komagatake Ropeway</span><span class="kind">Bus + ropeway · 50 minutes</span></span></summary>
           <div class="step-body">
             <p>Take the <strong>bus to the ropeway</strong>, then take the <strong>Komagatake Ropeway</strong>. The combined journey takes <strong>50 minutes</strong>.</p>
+            <ul>
+              <li>Bus leaves every <strong>30 minutes</strong>.</li>
+            </ul>
             <div class="actions">
               <a class="action primary" href="https://www.chuo-alps.com/en/timetable/" target="_blank" rel="noopener">Ropeway timetable ↗</a>
             </div>
@@ -172,7 +183,7 @@
           data-title="Catch the last ropeway down" data-summary="The last ropeway down leaves at 17:00 and must not be missed." data-hard="true">
           <summary><span class="time">16:30<br>17:15</span><span><span class="step-title">Catch the last ropeway down</span><span class="kind">Ropeway · hard deadline 17:00</span></span></summary>
           <div class="step-body">
-            <p><strong>Do not miss the last ropeway down at 17:00.</strong> Allow time to board and ride down, which takes 15 minutes.</p>
+            <p class="warning"><strong>Do not miss:</strong> the last ropeway down leaves at <strong>17:00</strong>. Allow time to board and ride down, which takes 15 minutes.</p>
             <div class="actions">
               <a class="action primary" href="https://www.chuo-alps.com/en/timetable/" target="_blank" rel="noopener">Ropeway timetable ↗</a>
             </div>
