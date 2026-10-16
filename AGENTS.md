@@ -29,3 +29,4 @@ look, feel, and behavior of `plan/week 1/2026-10-20_TUE.html`:
 - Commit and push after every change.
 - Whenever a step timing changes, update the timings of all subsequent steps.
 - Warnings in step bodies must use the `.warning` visual style from the reference day plan.
+- If no time is provided, ask the user; never guess or estimate unless explicitly asked.
