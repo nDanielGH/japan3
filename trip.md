@@ -5,11 +5,6 @@ details live in `plan/`; constants live in `constraints.md`. Rows marked `?`
 are unknown or not yet confirmed. Update this file whenever a hotel, ticket or
 route decision is made.
 
-## Travellers
-
-- ? (the Tuesday checklist says "make sure everyone knows how to use" the bear
-  spray, so more than one person; confirm names and count)
-
 ## Route by night
 
 | Night of | Sleep in | Hotel | Booked? | Source |

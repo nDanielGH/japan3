@@ -139,7 +139,7 @@ Details:
 ## Other files
 
 - `constraints.md`: fixed trip constants (dates, luggage, daylight).
-- `trip.md`: route by night, hotels, bookings, travellers, decisions. Update it
+- `trip.md`: route by night, hotels, bookings, decisions. Update it
   whenever a booking or sleeping location is decided.
 - `scripts/build.py`, `scripts/check.py`, `scripts/day_template.html`: the
   whole toolchain. Python 3.9+, no dependencies.
