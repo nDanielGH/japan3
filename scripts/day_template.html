@@ -1,0 +1,779 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#173f35">
+  <title>{{TITLE}}</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #f4f2ea;
+      --surface: #fffdf7;
+      --surface-2: #e9eee8;
+      --ink: #17201d;
+      --muted: #60706a;
+      --line: #d4dbd5;
+      --green: #173f35;
+      --green-2: #2d6657;
+      --gold: #b97922;
+      --red: #a33c30;
+      --shadow: 0 8px 28px rgba(23, 63, 53, .10);
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 12px;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font: 16px/1.45 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    button, select, input { font: inherit; }
+    button, a { touch-action: manipulation; }
+
+    a {
+      color: var(--green-2);
+      text-underline-offset: 3px;
+    }
+
+    .app {
+      width: min(100%, 680px);
+      margin: 0 auto;
+      padding: 0 14px calc(92px + env(safe-area-inset-bottom));
+    }
+
+    header {
+      padding: calc(22px + env(safe-area-inset-top)) 4px 14px;
+    }
+
+    .eyebrow {
+      margin: 0 0 4px;
+      color: var(--muted);
+      font-size: .78rem;
+      font-weight: 800;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(1.75rem, 7vw, 2.35rem);
+      line-height: 1.08;
+      letter-spacing: -.035em;
+    }
+
+    .date {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-weight: 650;
+    }
+
+    .now-card {
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 14px;
+      padding: 18px;
+      border-radius: 22px;
+      background: var(--green);
+      color: #fff;
+      box-shadow: var(--shadow);
+    }
+
+    .now-card::after {
+      position: absolute;
+      right: -35px;
+      bottom: -65px;
+      width: 150px;
+      height: 150px;
+      border: 26px solid rgba(255,255,255,.07);
+      border-radius: 50%;
+      content: "";
+    }
+
+    .now-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .status-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-size: .78rem;
+      font-weight: 850;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .status-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #83e0b5;
+      box-shadow: 0 0 0 5px rgba(131,224,181,.14);
+    }
+
+    #clock {
+      color: rgba(255,255,255,.82);
+      font-size: .88rem;
+      font-variant-numeric: tabular-nums;
+    }
+
+    #nowTitle {
+      margin: 18px 0 4px;
+      max-width: 86%;
+      font-size: 1.55rem;
+      line-height: 1.15;
+      letter-spacing: -.02em;
+    }
+
+    #nowTime {
+      margin: 0;
+      color: #bde6d5;
+      font-weight: 750;
+    }
+
+    #nowSummary {
+      position: relative;
+      z-index: 1;
+      margin: 12px 0 16px;
+      max-width: 92%;
+      color: rgba(255,255,255,.86);
+    }
+
+    .countdown {
+      display: inline-block;
+      margin-bottom: 15px;
+      padding: 6px 10px;
+      border: 1px solid rgba(255,255,255,.2);
+      border-radius: 999px;
+      background: rgba(255,255,255,.1);
+      font-size: .82rem;
+      font-weight: 750;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .now-button {
+      position: relative;
+      z-index: 1;
+      display: inline-flex;
+      min-height: 44px;
+      align-items: center;
+      padding: 10px 15px;
+      border: 0;
+      border-radius: 12px;
+      background: #fff;
+      color: var(--green);
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .preview {
+      margin: 0 0 18px;
+      padding: 0 2px;
+    }
+
+    .preview summary {
+      width: fit-content;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: .85rem;
+      font-weight: 700;
+    }
+
+    .preview-controls {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    select, .small-button {
+      min-height: 42px;
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      background: var(--surface);
+      color: var(--ink);
+    }
+
+    select {
+      flex: 1;
+      min-width: 0;
+      padding: 8px 34px 8px 10px;
+    }
+
+    .small-button {
+      padding: 8px 13px;
+      cursor: pointer;
+      font-weight: 750;
+    }
+
+    section { margin-top: 22px; }
+
+    .section-heading {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin: 0 2px 10px;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 1.15rem;
+      letter-spacing: -.015em;
+    }
+
+    .section-note {
+      color: var(--muted);
+      font-size: .78rem;
+    }
+
+    .prep-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .check-row {
+      display: flex;
+      min-height: 52px;
+      align-items: flex-start;
+      gap: 11px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--surface);
+      cursor: pointer;
+    }
+
+    .check-row input {
+      width: 21px;
+      height: 21px;
+      flex: 0 0 auto;
+      margin: 1px 0 0;
+      accent-color: var(--green-2);
+    }
+
+    .check-row:has(input:checked) span {
+      color: var(--muted);
+      text-decoration: line-through;
+    }
+
+    .timeline {
+      position: relative;
+      display: grid;
+      gap: 10px;
+    }
+
+    .step {
+      position: relative;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+      box-shadow: 0 2px 9px rgba(23,63,53,.04);
+      transition: opacity .2s, border-color .2s, box-shadow .2s;
+    }
+
+    .step[open] {
+      border-color: #9db7ad;
+      box-shadow: var(--shadow);
+    }
+
+    .step.is-current {
+      border: 2px solid var(--green-2);
+    }
+
+    .step.is-current::before {
+      position: absolute;
+      top: 16px;
+      right: 42px;
+      padding: 3px 7px;
+      border-radius: 999px;
+      background: var(--green);
+      color: #fff;
+      content: "NOW";
+      font-size: .66rem;
+      font-weight: 900;
+      letter-spacing: .07em;
+    }
+
+    .step.is-past { opacity: .58; }
+
+    .step > summary {
+      display: grid;
+      grid-template-columns: 70px 1fr;
+      gap: 11px;
+      min-height: 72px;
+      align-items: center;
+      padding: 13px 42px 13px 13px;
+      cursor: pointer;
+      list-style: none;
+    }
+
+    .step > summary::-webkit-details-marker { display: none; }
+
+    .step > summary::after {
+      position: absolute;
+      top: 26px;
+      right: 16px;
+      color: var(--muted);
+      content: "⌄";
+      font-size: 1.15rem;
+      transition: transform .2s;
+    }
+
+    .step[open] > summary::after { transform: rotate(180deg); }
+
+    .time {
+      color: var(--green-2);
+      font-size: .82rem;
+      font-weight: 850;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .step-title {
+      display: block;
+      padding-right: 6px;
+      font-weight: 820;
+      line-height: 1.25;
+    }
+
+    .kind {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: .75rem;
+      font-weight: 650;
+    }
+
+    .step-body {
+      padding: 0 15px 16px;
+      border-top: 1px solid var(--line);
+    }
+
+    .step-body p { margin: 13px 0; }
+    .step-body ul, .step-body ol { padding-left: 22px; }
+    .step-body li + li { margin-top: 8px; }
+    .step-body strong { color: var(--green); }
+
+    .warning {
+      padding: 11px 12px;
+      border-left: 4px solid var(--gold);
+      border-radius: 8px;
+      background: #fff5dd;
+      color: #604310;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 13px;
+    }
+
+    .action {
+      display: inline-flex;
+      min-height: 44px;
+      align-items: center;
+      justify-content: center;
+      padding: 9px 12px;
+      border: 1px solid #adc2ba;
+      border-radius: 11px;
+      background: var(--surface-2);
+      color: var(--green);
+      cursor: pointer;
+      font-weight: 780;
+      text-decoration: none;
+    }
+
+    .action.primary {
+      border-color: var(--green);
+      background: var(--green);
+      color: #fff;
+    }
+
+    .resource-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 9px;
+    }
+
+    .resource {
+      display: flex;
+      min-height: 78px;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--surface);
+      color: var(--ink);
+      cursor: pointer;
+      font-weight: 780;
+      text-align: left;
+      text-decoration: none;
+    }
+
+    .resource small {
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      z-index: 20;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      display: flex;
+      width: min(calc(100% - 20px), 660px);
+      margin: 0 auto calc(10px + env(safe-area-inset-bottom));
+      padding: 7px;
+      border: 1px solid rgba(255,255,255,.5);
+      border-radius: 17px;
+      background: rgba(23,63,53,.94);
+      box-shadow: 0 8px 30px rgba(0,0,0,.25);
+      backdrop-filter: blur(14px);
+    }
+
+    .bottom-nav a {
+      display: flex;
+      min-height: 48px;
+      flex: 1;
+      align-items: center;
+      justify-content: center;
+      border-radius: 11px;
+      color: rgba(255,255,255,.82);
+      font-size: .78rem;
+      font-weight: 760;
+      text-decoration: none;
+    }
+
+    .bottom-nav a:active { background: rgba(255,255,255,.12); }
+
+    dialog {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      max-width: none;
+      height: 100dvh;
+      max-height: none;
+      margin: 0;
+      padding: 0;
+      border: 0;
+      background: #111;
+      color: #fff;
+    }
+
+    dialog::backdrop { background: rgba(0,0,0,.9); }
+
+    .viewer-bar {
+      position: fixed;
+      z-index: 2;
+      top: 0;
+      right: 0;
+      left: 0;
+      display: flex;
+      min-height: 62px;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: calc(8px + env(safe-area-inset-top)) 12px 8px;
+      background: rgba(0,0,0,.72);
+    }
+
+    #viewerTitle {
+      min-width: 0;
+      flex: 1;
+      overflow: hidden;
+      font-weight: 760;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .viewer-tools {
+      display: flex;
+      flex-shrink: 0;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .viewer-tool {
+      min-width: 40px;
+      min-height: 42px;
+      border: 1px solid #666;
+      border-radius: 11px;
+      background: #222;
+      color: #fff;
+      cursor: pointer;
+      font-weight: 800;
+    }
+
+    .close-viewer {
+      min-width: 44px;
+      min-height: 42px;
+      border: 1px solid #666;
+      border-radius: 11px;
+      background: #222;
+      color: #fff;
+      cursor: pointer;
+      font-weight: 800;
+    }
+
+    .image-pan {
+      display: block;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      padding: calc(62px + env(safe-area-inset-top)) 0 24px;
+      overscroll-behavior: contain;
+    }
+
+    #viewerImage {
+      display: block;
+      width: 100%;
+      min-width: 0;
+      max-width: none;
+      height: auto;
+      min-height: 0;
+    }
+
+    .footer-note {
+      margin: 22px 4px 0;
+      color: var(--muted);
+      font-size: .78rem;
+      text-align: center;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #101613;
+        --surface: #18201d;
+        --surface-2: #202c27;
+        --ink: #f0f3ef;
+        --muted: #a2afa9;
+        --line: #33413b;
+        --green: #22594a;
+        --green-2: #8bc9b1;
+        --gold: #e0a648;
+        --shadow: 0 9px 28px rgba(0,0,0,.28);
+      }
+
+      .step-body strong, .action { color: #a8dbc7; }
+      .warning { background: #3c3018; color: #f2d393; }
+      .action.primary { color: #fff; }
+    }
+
+    @media (min-width: 600px) {
+      .app { padding-right: 20px; padding-left: 20px; }
+      .resource-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+{{BODY}}
+  </main>
+
+  <nav class="bottom-nav" aria-label="Page sections">
+    <a href="#top">Now</a>
+    <a href="#prepare">Prepare</a>
+    <a href="#timeline-section">Timeline</a>
+    <a href="#resources">Maps</a>
+  </nav>
+
+  <dialog id="imageViewer">
+    <div class="viewer-bar">
+      <span id="viewerTitle">Reference image</span>
+      <div class="viewer-tools" aria-label="Image zoom controls">
+        <button class="viewer-tool" id="zoomOut" type="button" aria-label="Zoom out">−</button>
+        <button class="viewer-tool" id="zoomReset" type="button" aria-label="Reset zoom">100%</button>
+        <button class="viewer-tool" id="zoomIn" type="button" aria-label="Zoom in">+</button>
+        <button class="close-viewer" id="closeViewer" type="button" aria-label="Close image">Close</button>
+      </div>
+    </div>
+    <div class="image-pan">
+      <img id="viewerImage" alt="">
+    </div>
+  </dialog>
+
+  <script>
+    (() => {
+      const DAY = {{CONFIG_JSON}};
+      const storagePrefix = `day-${DAY.date}:`;
+      const steps = [...document.querySelectorAll(".step")].map((element) => ({
+        element,
+        start: new Date(element.dataset.start),
+        end: element.dataset.end ? new Date(element.dataset.end) : null,
+        open: !element.dataset.end,
+        title: element.dataset.title,
+        summary: element.dataset.summary,
+        hard: element.dataset.hard === "true"
+      }));
+      const dayEnd = new Date(DAY.dayEnd);
+      const endOf = (step) => step.end || dayEnd;
+
+      const statusLabel = document.querySelector("#statusLabel");
+      const clock = document.querySelector("#clock");
+      const nowTitle = document.querySelector("#nowTitle");
+      const nowTime = document.querySelector("#nowTime");
+      const nowSummary = document.querySelector("#nowSummary");
+      const countdown = document.querySelector("#countdown");
+      const nowButton = document.querySelector("#nowButton");
+      const previewTime = document.querySelector("#previewTime");
+
+      const japanTime = new Intl.DateTimeFormat("en-GB", {
+        timeZone: "Asia/Tokyo",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false
+      });
+
+      function displayTime(step) {
+        return step.open
+          ? `${japanTime.format(step.start)} onward`
+          : `${japanTime.format(step.start)}–${japanTime.format(step.end)}`;
+      }
+
+      function durationText(milliseconds) {
+        const totalMinutes = Math.max(0, Math.ceil(milliseconds / 60000));
+        const days = Math.floor(totalMinutes / 1440);
+        const hours = Math.floor((totalMinutes % 1440) / 60);
+        const minutes = totalMinutes % 60;
+        if (days) return `${days}d ${hours}h`;
+        if (hours) return `${hours}h ${minutes}m`;
+        return `${minutes} min`;
+      }
+
+      function currentTime() {
+        return previewTime.value ? new Date(previewTime.value) : new Date();
+      }
+
+      function render() {
+        if (!steps.length) return;
+        const now = currentTime();
+        const first = steps[0];
+        const last = steps.at(-1);
+        const active = steps.find((step) => now >= step.start && now < endOf(step));
+        const next = steps.find((step) => step.start > now);
+        const selected = active || next;
+
+        clock.textContent = previewTime.value
+          ? `${japanTime.format(now)} · preview`
+          : `${japanTime.format(now)} JST`;
+
+        steps.forEach((step) => {
+          const isCurrent = step === active;
+          step.element.classList.toggle("is-current", isCurrent);
+          step.element.classList.toggle("is-past", now >= endOf(step));
+          if (isCurrent) step.element.open = true;
+        });
+
+        if (now < first.start) {
+          statusLabel.textContent = "UP NEXT";
+          nowTitle.textContent = first.title;
+          nowTime.textContent = displayTime(first);
+          nowSummary.textContent = first.summary;
+          countdown.textContent = `Starts in ${durationText(first.start - now)}`;
+          nowButton.textContent = "View first step ↓";
+          nowButton.href = `#${first.element.id}`;
+          return;
+        }
+
+        if (now >= endOf(last)) {
+          statusLabel.textContent = "COMPLETE";
+          nowTitle.textContent = DAY.complete.title;
+          nowTime.textContent = DAY.complete.time;
+          nowSummary.textContent = DAY.complete.summary;
+          countdown.textContent = "All scheduled steps finished";
+          nowButton.textContent = "Review timeline ↓";
+          nowButton.href = "#timeline-section";
+          return;
+        }
+
+        if (active) {
+          statusLabel.textContent = "NOW";
+          nowTitle.textContent = active.title;
+          nowTime.textContent = displayTime(active);
+          nowSummary.textContent = active.summary;
+          countdown.textContent = active.open ? "Final stage of the day" : `${durationText(active.end - now)} remaining`;
+          nowButton.textContent = "Open current step ↓";
+          nowButton.href = `#${active.element.id}`;
+          return;
+        }
+
+        statusLabel.textContent = "UP NEXT";
+        nowTitle.textContent = selected.title;
+        nowTime.textContent = displayTime(selected);
+        nowSummary.textContent = selected.summary;
+        countdown.textContent = `${selected.hard ? "Departs" : "Starts"} in ${durationText(selected.start - now)}`;
+        nowButton.textContent = "View next step ↓";
+        nowButton.href = `#${selected.element.id}`;
+      }
+
+      document.querySelectorAll("[data-check]").forEach((checkbox) => {
+        const key = storagePrefix + checkbox.dataset.check;
+        try {
+          checkbox.checked = localStorage.getItem(key) === "true";
+          checkbox.addEventListener("change", () => localStorage.setItem(key, String(checkbox.checked)));
+        } catch (_) {
+          // The checklist still works for this session if local storage is unavailable.
+        }
+      });
+
+      previewTime.addEventListener("change", render);
+      document.querySelector("#liveButton").addEventListener("click", () => {
+        previewTime.value = "";
+        render();
+      });
+
+      const imageViewer = document.querySelector("#imageViewer");
+      const imagePan = document.querySelector(".image-pan");
+      const viewerImage = document.querySelector("#viewerImage");
+      const viewerTitle = document.querySelector("#viewerTitle");
+      const zoomOut = document.querySelector("#zoomOut");
+      const zoomReset = document.querySelector("#zoomReset");
+      const zoomIn = document.querySelector("#zoomIn");
+      let imageZoom = 1;
+
+      const setImageZoom = (nextZoom) => {
+        imageZoom = Math.min(3, Math.max(.25, nextZoom));
+        viewerImage.style.width = `${imageZoom * 100}%`;
+        zoomReset.textContent = `${Math.round(imageZoom * 100)}%`;
+      };
+
+      document.querySelectorAll(".image-link").forEach((button) => {
+        button.addEventListener("click", () => {
+          viewerImage.src = button.dataset.image;
+          viewerImage.alt = button.dataset.label;
+          viewerTitle.textContent = button.dataset.label;
+          setImageZoom(1);
+          imagePan.scrollLeft = 0;
+          imagePan.scrollTop = 0;
+          imageViewer.showModal();
+        });
+      });
+
+      zoomOut.addEventListener("click", () => setImageZoom(imageZoom - .25));
+      zoomReset.addEventListener("click", () => setImageZoom(1));
+      zoomIn.addEventListener("click", () => setImageZoom(imageZoom + .25));
+      document.querySelector("#closeViewer").addEventListener("click", () => imageViewer.close());
+      imageViewer.addEventListener("click", (event) => {
+        if (event.target === imageViewer) imageViewer.close();
+      });
+
+      render();
+      window.setInterval(render, 30000);
+    })();
+  </script>
+</body>
+</html>
