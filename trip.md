@@ -20,7 +20,7 @@ route decision is made.
 | 2026-10-26 Mon | ? | ? | ? | |
 | 2026-10-27 Tue | ? | ? | ? | |
 | 2026-10-28 Wed | ? | ? | ? | |
-| 2026-10-29 Thu | ? | ? | ? | |
+| 2026-10-29 Thu | Naruko Onsen, Miyagi | Ubanoyu Ryokan | yes | Thursday plan |
 | 2026-10-30 Fri | ? | ? | ? | |
 | 2026-10-31 Sat | ? | ? | ? | |
 | 2026-11-01 Sun | ? | ? | ? | |
