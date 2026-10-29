@@ -44,6 +44,9 @@ expandable steps, image viewer with zoom).
 - Never invent a time, duration, platform, seat, price, or opening hour. If
   the user did not provide a time, ask; never guess or estimate unless
   explicitly asked.
+- When creating a multi-step plan, order the steps as the most logical,
+  optimal viable route by default, unless the user explicitly specifies a
+  different order.
 - When a step's timing changes, update every subsequent step so the timeline
   stays consistent. Chained steps written as `+45m` move automatically;
   absolute steps do not. `check.py` fails when a step starts before the
